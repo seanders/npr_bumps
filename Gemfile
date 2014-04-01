@@ -5,6 +5,7 @@ gem 'rails', '4.0.4'
 gem 'jbuilder'
 gem 'pg'
 gem 'unicorn'
+gem 'nokogiri'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
