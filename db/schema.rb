@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   create_table "programs", force: true do |t|
     t.string   "name"
     t.string   "url"
+    t.string   "slug"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -1,11 +1,17 @@
 source 'https://rubygems.org'
 ruby "2.1.1"
 
+require 'net/http'
+require 'net/https'
+require 'uri'
+
 gem 'rails', '4.0.4'
 gem 'jbuilder'
 gem 'pg'
 gem 'unicorn'
 gem 'nokogiri'
+gem 'httparty'
+gem 'zeus'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
