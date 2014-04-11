@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
     t.string   "name"
     t.string   "url"
     t.string   "slug"
+    t.string   "episode_index_path"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -43,6 +44,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
 
   create_table "shows", force: true do |t|
     t.date     "date"
+    t.integer  "remote_id"
     t.integer  "program_id"
     t.datetime "created_at"
     t.datetime "updated_at"

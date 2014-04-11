@@ -24,7 +24,7 @@ urls = [
 
 joint_array = programs.zip(urls)
 joint_array.each do |(program_name, url)|
-  Program.create(name: program_name, url: BASE_URL+url, slug: url)
+  Program.create(name: program_name, url: BASE_URL+url, slug: url, episode_index_path: '/archive')
 end
 
 

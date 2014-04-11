@@ -1,7 +1,8 @@
 class HTMLGetter
+  attr_reader :base_url, :program_slug
 
   def initialize(program)
-    @base_url = program.class::BASE_URL
+    @base_url = program.base_url
     @program_slug = program.slug
     # @options = { query: options[:query] }
   end
@@ -10,7 +11,7 @@ class HTMLGetter
     @base_url + "/" + @program_slug + path
   end
 
-  def build_parameters(params)
+  def build_parameters(params={})
     built_params = {}
     if params.has_key?(:date)
       date = params[:date]
@@ -21,17 +22,17 @@ class HTMLGetter
 
   def parameterize_month(month, year)
     time = Time.new(year, month)
-    date_parameter = time.end_of_month.strftime("%m-%d-%Y")
+    date_parameter = time.end_of_month.strftime("%-m-%d-%Y")
   end
 
   def get_html(path, options={})
     url_path = build_path(path)
     options = build_parameters(options)
     log_request(url_path, options)
-    HTTParty.get(build_path(path), options)
+    HTTParty.get(url_path, options)
   end
 
-  def log_request(url, options)
+  def log_request(url=nil, options=nil)
     Rails.logger.info("Requesting data from NPR:")
     Rails.logger.info("PATH: #{url}")
     Rails.logger.info("PARAMS: #{options}")
