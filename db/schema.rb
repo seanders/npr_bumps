@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
 
   create_table "shows", force: true do |t|
     t.date     "date"
-    t.integer  "remote_id"
+    t.integer  "remote_idu"
     t.integer  "program_id"
     t.datetime "created_at"
     t.datetime "updated_at"

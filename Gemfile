@@ -11,7 +11,7 @@ gem 'pg'
 gem 'unicorn'
 gem 'nokogiri'
 gem 'httparty'
-gem 'zeus'
+gem 'em-http-request'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -22,6 +22,7 @@ end
 gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
+  gem 'zeus'
   gem 'foreman'
   gem 'factory_girl_rails'
   gem 'rdoc'

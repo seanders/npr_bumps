@@ -45,8 +45,6 @@ describe HTMLGetter do
 
   describe "#get_html" do
     it "should build the path and parameters, log the request, and fire the get request" do
-      @html_getter.should_receive(:build_path).and_call_original
-      @html_getter.should_receive(:build_parameters).and_call_original
       HTTParty.should_receive(:get).with("base_url/slug/archive", {:query=>{}})
       @html_getter.get_html("/archive")
     end
