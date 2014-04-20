@@ -22,7 +22,7 @@ describe HTMLGetter do
 
   describe "#build_path" do
     it "should return a complete url with base_url + slug + path" do
-      @html_getter.build_path('/archive').should eq("/slug/archive")
+      @html_getter.build_path('/archive').should eq("/programs/slug/archive")
     end
   end
 

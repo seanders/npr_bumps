@@ -11,24 +11,23 @@ class Program < ActiveRecord::Base
     # Note: NPR archive pages use the last date of each month to load the episodes for an entire month
     # http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
 
-    # Build array of last days of each month in date range
-    html_objects = build_html_objects(date_range)
-
-    # Build array of urls to request on
+    # Build array of html_objects for query
+    html_objects = build_html_request_objects(date_range)
 
     # Concurrently request each page; Need some EM magic here
-    async_page_request(html_objects)
+    html_pages = async_page_request(html_objects)
 
-    # Scrape the page and parse out date + remote_id pairs for each show
+    # parse html_pages for remote_ids of specific shows
+    show_attributes = parse_attributes_from_html(html_pages)
 
-    # Create shows with date and remote_id
+    # Create shows with date and remote_id; NB: Overinclude will add shows potentially outside the specific date-range
+    shows = Show.find_or_create_from_attributes(show_attributes, self)
+    # for each show in date range, request that show page, scrape the track and create the show_track_relation
+    shows_needing_sync = Show.where(date: date_range.start_date..date_range.end_date)
 
-    # query recently created shows in that date ranges
-
-    # for each show, request that show page, scrape the track and create the show_track_relation
   end
 
-  def build_html_objects(date_range)
+  def build_html_request_objects(date_range)
     index_month_dates = build_archive_months(date_range)
     index_month_dates.map do |date|
       html_getter = HTMLGetter.new(self, "/archive", date)
@@ -50,7 +49,6 @@ class Program < ActiveRecord::Base
         proc { |html_object, iterator|
           connection = EventMachine::HttpRequest.new(html_object.base_url)
           http = connection.get(path: html_object.build_path('/archive'), query: html_object.build_parameters({date: html_object.date }))
-          p http
           http.callback { |http|
             pages << http.response
             iterator.next
@@ -60,6 +58,19 @@ class Program < ActiveRecord::Base
       )
     }
     pages
+  end
+
+  # parse each page and create an array of maps containing remote_id and date of the show
+  def parse_attributes_from_html(html=[])
+    nested_ids = html.map do |html_string|
+      Nokogiri::HTML(html_string).css(".program-archive-episode").map do |episode_tag|
+        {
+          remote_id: episode_tag.attribute("data-episode-id").value.to_i,
+          date:      episode_tag.attribute("data-episode-date").value
+        }
+      end
+    end
+    nested_ids.flatten
   end
 
 end

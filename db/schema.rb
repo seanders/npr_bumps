@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 20140401061916) do
     t.string   "name"
     t.string   "url"
     t.string   "slug"
-    t.string   "episode_index_path"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,14 +43,14 @@ ActiveRecord::Schema.define(version: 20140401061916) do
 
   create_table "shows", force: true do |t|
     t.date     "date"
-    t.integer  "remote_idu"
-    t.integer  "program_id"
+    t.integer  "remote_id", null: false
+    t.integer  "program_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "shows", ["date"], name: "index_shows_on_date", using: :btree
-  add_index "shows", ["program_id"], name: "index_shows_on_program_id", using: :btree
+  add_index "shows", ["remote_id", "program_id"], name: "index_shows_on_remote_id_and_program_id", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "name"

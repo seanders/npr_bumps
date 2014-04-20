@@ -5,19 +5,19 @@ class HTMLGetter
     @base_url = program.base_url
     @program_slug = program.slug
     @date = date
-    # @options = { query: options[:query] }
   end
 
   def build_path(path)
+    #reference: http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
+    # http://www.npr.org/programs/all-things-considered/2014/01/31/269516522?showDate=2014-01-31
+    # http://www.npr.org/programs/morning-edition/?view=musicview
     "/programs/" + @program_slug + path
   end
 
   def build_parameters(params={})
     built_params = {}
-    if params.has_key?(:date)
-      date = params[:date]
-      built_params[:date] = parameterize_month(date)
-    end
+    built_params[:date] = parameterize_month(params[:date]) if params.has_key?(:date)
+    built_params[:view] = params[:view] if params.has_key?(:view)
     built_params
   end
 

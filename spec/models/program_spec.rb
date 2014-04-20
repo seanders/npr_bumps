@@ -8,14 +8,15 @@ describe Program do
 
   describe ".base_url" do
     it "should return the BASE_URL constant for the class" do
-      @program.base_url.should eq("http://www.npr.org/programs")
+      @program.base_url.should eq("http://www.npr.org")
     end
   end
 
-  describe ".build_html_objects" do
-    it "should return an array of index urls" do
-      html_objects = @program.build_html_objects(DateRange.new("1-10-2014", "3-13-2014"))
+  describe ".build_html_request_objects" do
+    it "should return an array of html request objects" do
+      html_objects = @program.build_html_request_objects(DateRange.new("1-10-2014", "3-13-2014"))
       html_objects.length.should eq(3)
+      html_objects.first.should be_a(HTMLGetter)
     end
   end
 
@@ -27,6 +28,21 @@ describe Program do
           Time.new(2014, 1, 31).end_of_month,
           Time.new(2014, 2, 28).end_of_month,
           Time.new(2014, 3, 31).end_of_month
+        ]
+      )
+    end
+  end
+
+  describe ".parse_attributes_from_html" do
+    it "should parse attributes from html responses" do
+      html_array = [
+        '<article class="program-archive-episode" data-episode-id="269516522" data-episode-date="2014-01-31"></article>',
+        '<article class="program-archive-episode" data-episode-id="268906743" data-episode-date="2014-01-30"></article>'
+      ]
+      @program.parse_attributes_from_html(html_array).should eq(
+        [
+          { remote_id: "269516522", date: "2014-01-31" },
+          { remote_id: "268906743", date: "2014-01-30" }
         ]
       )
     end
