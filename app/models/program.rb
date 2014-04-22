@@ -15,7 +15,7 @@ class Program < ActiveRecord::Base
     html_objects = build_html_request_objects(date_range)
 
     # Concurrently request each page; Need some EM magic here
-    html_pages = async_page_request(html_objects)
+    html_pages = HTMLGetter.async_page_request(html_objects)
 
     # parse html_pages for remote_ids of specific shows
     show_attributes = parse_attributes_from_html(html_pages)
@@ -25,12 +25,14 @@ class Program < ActiveRecord::Base
     # for each show in date range, request that show page, scrape the track and create the show_track_relation
     shows_needing_sync = Show.where(date: date_range.start_date..date_range.end_date)
 
+    Show.batch_remote_sync(shows_needing_sync)
+
   end
 
   def build_html_request_objects(date_range)
     index_month_dates = build_archive_months(date_range)
     index_month_dates.map do |date|
-      html_getter = HTMLGetter.new(self, "/archive", date)
+      html_getter = HTMLGetter.new(self, "/archive", {date: date})
     end
   end
 
@@ -40,24 +42,6 @@ class Program < ActiveRecord::Base
     month_index.map do |advance|
       index_date = date_range.start_date.advance(months: advance).end_of_month
     end
-  end
-
-  def async_page_request(html_objects=[])
-    pages = []
-    EM.run {
-      EM::Iterator.new(html_objects, 10).each(
-        proc { |html_object, iterator|
-          connection = EventMachine::HttpRequest.new(html_object.base_url)
-          http = connection.get(path: html_object.build_path('/archive'), query: html_object.build_parameters({date: html_object.date }))
-          http.callback { |http|
-            pages << http.response
-            iterator.next
-          }
-        },
-        proc { EM.stop }
-      )
-    }
-    pages
   end
 
   # parse each page and create an array of maps containing remote_id and date of the show

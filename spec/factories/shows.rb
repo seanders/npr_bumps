@@ -1,8 +1,7 @@
-# Read about factories at https://github.com/thoughtbot/factory_girl
-
 FactoryGirl.define do
   factory :show do
-    name "MyString"
-    url "MyString"
+    sequence(:date) { |n| (Date.new(2000,12,31) + n.days) }
+    sequence(:remote_id) { |n| n }
+    association :program, factory: :program
   end
 end

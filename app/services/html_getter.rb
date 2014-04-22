@@ -1,23 +1,23 @@
 class HTMLGetter
-  attr_reader :base_url, :program_slug, :path, :date
+  attr_reader :base_url, :program_slug, :path, :parameters
 
-  def initialize(program, path, date)
+  def initialize(program, path, parameters={})
     @base_url = program.base_url
+    @path = path
+    @parameters = parameters
     @program_slug = program.slug
-    @date = date
   end
 
-  def build_path(path)
+  def build_path(path=nil)
     #reference: http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
     # http://www.npr.org/programs/all-things-considered/2014/01/31/269516522?showDate=2014-01-31
-    # http://www.npr.org/programs/morning-edition/?view=musicview
-    "/programs/" + @program_slug + path
+    "/programs/" + @program_slug + @path
   end
 
-  def build_parameters(params={})
+  def build_parameters
     built_params = {}
-    built_params[:date] = parameterize_month(params[:date]) if params.has_key?(:date)
-    built_params[:view] = params[:view] if params.has_key?(:view)
+    built_params[:date] = parameterize_month(@parameters[:date]) if @parameters.has_key?(:date)
+    built_params[:view] = @parameters[:view] if @parameters.has_key?(:view)
     built_params
   end
 
@@ -27,6 +27,24 @@ class HTMLGetter
 
   def parameterize_month(time_object)
     date_parameter = time_object.end_of_month.strftime("%-m-%d-%Y")
+  end
+
+  def self.async_page_request(html_objects=[])
+    pages = []
+    EM.run {
+      EM::Iterator.new(html_objects, 10).each(
+        proc { |html_object, iterator|
+          p connection = EventMachine::HttpRequest.new(html_object.base_url)
+          p http = connection.get(path: html_object.build_path, query: html_object.build_parameters)
+          http.callback { |http|
+            pages << http.response
+            iterator.next
+          }
+        },
+        proc { EM.stop }
+      )
+    }
+   p pages
   end
 
   def get_html(path, options={})

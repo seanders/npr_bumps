@@ -16,7 +16,34 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def remote_sync
-    #request show page and scrap song info
+  def self.batch_remote_sync(shows)
+    html_objects = shows.map { |show| show.build_html_request_object }
+    raw_html_responses = HTMLGetter.async_page_request(html_objects)
+    nested_song_attributes = raw_html_responses.map do |html_response|
+      song_attributes = parse_raw_html(html_response)
+    end
+    nested_song_attributes.each do |song_attribute_hash|
+      Track.create(
+        title: song_attribute_hash[:track_title],
+        artist: Artist.where(name: song_attribute_hash[:artist_name]).first_or_create
+      )
+    end
+  end
+
+  def build_html_request_object
+    # http://www.npr.org/programs/all-things-considered/2014/01/31/269516522?showDate=2014-01-31
+    HTMLGetter.new(program, "/#{date.to_param.gsub('-', '/')}/#{remote_id}", {showDate: date.strftime("%Y-%m-%d")})
+  end
+
+  def self.parse_raw_html(html)
+    Nokogiri::HTML(html).css(".musicwrap").map do |musicwrap_node|
+      track_title = musicwrap_node.css(".songTitle").children.first.text
+      artist_name = musicwrap_node.css(".artist").inner_text
+      # come back to add album information here
+      {
+        track_title: track_title,
+        artist_name: artist_name
+      }
+    end
   end
 end

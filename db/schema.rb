@@ -53,8 +53,9 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   add_index "shows", ["remote_id", "program_id"], name: "index_shows_on_remote_id_and_program_id", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
-    t.string   "name"
+    t.string   "title"
     t.integer  "artist_id"
+    t.string   "album_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

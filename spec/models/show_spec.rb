@@ -27,4 +27,25 @@ describe Show do
       }.to change(Show, :count).by 1
     end
   end
+
+  describe "#build_html_request_object" do
+    it "should return an HTMLGetter object" do
+      show = create(:show)
+      html_obj = show.build_html_request_object
+      html_obj.should be_a(HTMLGetter)
+    end
+  end
+
+  describe "#parse_raw_html" do
+    it "should return an array of song-attribute maps" do
+      raw_html = File.open("/Users/sean/Desktop/npr_bumps/spec/mock_html/mock_show.html", "r").read
+      parsed = Show.parse_raw_html(raw_html)
+      parsed.should eq(
+        [
+          { :track_title=>"Ballad of Sparrow Young", :artist_name=>" The Gentleman Losers" },
+          { :track_title=>"Street Beat", :artist_name=>" DJ Revolution" }
+        ]
+      )
+    end
+  end
 end

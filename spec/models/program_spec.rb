@@ -41,8 +41,8 @@ describe Program do
       ]
       @program.parse_attributes_from_html(html_array).should eq(
         [
-          { remote_id: "269516522", date: "2014-01-31" },
-          { remote_id: "268906743", date: "2014-01-30" }
+          { remote_id: 269516522, date: "2014-01-31" },
+          { remote_id: 268906743, date: "2014-01-30" }
         ]
       )
     end

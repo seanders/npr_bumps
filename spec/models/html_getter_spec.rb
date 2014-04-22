@@ -7,7 +7,7 @@ describe HTMLGetter do
     @program.stub(:base_url) { "base_url" }
     @program.stub(:slug) { "slug" }
     @program.stub(:date) { Time.new(2014, 1, 13) }
-    @html_getter = HTMLGetter.new(@program, "/archive", Time.new(2014, 1, 13))
+    @html_getter = HTMLGetter.new(@program, "/archive", {date: Time.new(2014, 1, 13)})
   end
 
   describe "#intialize" do
@@ -21,20 +21,29 @@ describe HTMLGetter do
   end
 
   describe "#build_path" do
-    it "should return a complete url with base_url + slug + path" do
-      @html_getter.build_path('/archive').should eq("/programs/slug/archive")
+    context "with an argument" do
+      it "should return a complete url with base_url + slug + path" do
+        @html_getter.build_path('/archive').should eq("/programs/slug/archive")
+      end
+    end
+
+    context "without an argument" do
+      it "should return a complete url using the objects path attribute" do
+        @html_getter.build_path.should eq("/programs/slug/archive")
+      end
     end
   end
 
   describe "#build_parameters" do
     it "should return a hash with a query key" do
       @html_getter.stub(:parameterize_month).and_return("date")
-      params = @html_getter.build_parameters(date: { month: 1, year: 2014 })
+      params = @html_getter.build_parameters
       params.should eq({ date: "date" })
     end
 
     it "should return an empty hash if called with no parameters" do
-      @html_getter.build_parameters().should eq({})
+      @no_params_html_getter = HTMLGetter.new(@program, "/archive")
+      @no_params_html_getter.build_parameters.should eq({})
     end
   end
 
@@ -44,11 +53,11 @@ describe HTMLGetter do
     end
   end
 
-  describe "#get_html" do
-    it "should build the path and parameters, log the request, and fire the get request" do
-      HTTParty.should_receive(:get).with("base_url/slug/archive", query: {})
-      @html_getter.get_html("/archive")
-    end
-  end
+  # describe "#get_html" do
+  #   it "should build the path and parameters, log the request, and fire the get request" do
+  #     HTTParty.should_receive(:get).with("base_url/slug/archive", query: {})
+  #     @html_getter.get_html("/archive")
+  #   end
+  # end
 end
 
