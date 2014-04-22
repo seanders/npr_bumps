@@ -17,16 +17,21 @@ class Show < ActiveRecord::Base
   end
 
   def self.batch_remote_sync(shows)
-    html_objects = shows.map { |show| show.build_html_request_object }
+    html_objects = shows.map {|show| show.build_html_request_object }
     raw_html_responses = HTMLGetter.async_page_request(html_objects)
     nested_song_attributes = raw_html_responses.map do |html_response|
-      song_attributes = parse_raw_html(html_response)
+      parse_raw_html(html_response)
     end
-    nested_song_attributes.each do |song_attribute_hash|
-      Track.create(
-        title: song_attribute_hash[:track_title],
-        artist: Artist.where(name: song_attribute_hash[:artist_name]).first_or_create
-      )
+
+    songs_attributes_array = shows.zip(nested_song_attributes)
+    songs_attributes_array.each do |(show, song_attribute_array)|
+      song_attribute_array.each do |song_attribute_hash|
+        track = Track.where(
+          title: song_attribute_hash[:track_title].strip,
+          artist: Artist.where(name: song_attribute_hash[:artist_name].strip).first_or_create
+        ).first_or_create
+        ShowTrack.create(track_id: track.id, show_id: show.id)
+      end
     end
   end
 

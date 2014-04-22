@@ -48,4 +48,10 @@ describe Show do
       )
     end
   end
+
+  describe "#batch_remote_sync" do
+    it "should method_name" do
+
+    end
+  end
 end
