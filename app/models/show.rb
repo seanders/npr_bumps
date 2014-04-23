@@ -27,20 +27,22 @@ class Show < ActiveRecord::Base
     #some class method on a new object that returns simple, iterate-able obejcts to simply track, artists, show_track creation
     show_scaffolds = shows_paired_with_html_response.map {|(show, raw_html)| ShowSongScaffold.new(show, raw_html) }
 
-    nested_song_attributes = raw_html_responses.map do |html_response|
-      parse_raw_html(html_response)
-    end
+    show_scaffolds.each {|scaffold| scaffold.create_tracks_from_attributes }
 
-    songs_attributes_array = shows.zip(nested_song_attributes)
-    songs_attributes_array.each do |(show, song_attribute_array)|
-      song_attribute_array.each do |song_attribute_hash|
-        track = Track.where(
-          title: song_attribute_hash[:track_title].strip,
-          artist: Artist.where(name: song_attribute_hash[:artist_name].strip).first_or_create
-        ).first_or_create
-        ShowTrackRelation.create(track_id: track.id, show_id: show.id)
-      end
-    end
+    # nested_song_attributes = raw_html_responses.map do |html_response|
+    #   parse_raw_html(html_response)
+    # end
+
+    # songs_attributes_array = shows.zip(nested_song_attributes)
+    # songs_attributes_array.each do |(show, song_attribute_array)|
+    #   song_attribute_array.each do |song_attribute_hash|
+    #     track = Track.where(
+    #       title: song_attribute_hash[:track_title],
+    #       artist: Artist.where(name: song_attribute_hash[:artist_name]).first_or_create
+    #     ).first_or_create
+    #     ShowTrackRelation.create(track_id: track.id, show_id: show.id)
+    #   end
+    # end
   end
 
   def build_html_request_object
@@ -54,8 +56,8 @@ class Show < ActiveRecord::Base
       artist_name = musicwrap_node.css(".artist").inner_text
       # come back to add album information here
       {
-        track_title: track_title,
-        artist_name: artist_name
+        track_title: track_title.strip,
+        artist_name: artist_name.strip
       }
     end
   end
