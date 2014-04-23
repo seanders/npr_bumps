@@ -1,7 +1,8 @@
 class HTMLGetter
-  attr_reader :base_url, :program_slug, :path, :parameters
+  attr_reader :base_url, :program_slug, :path, :parameters, :program
 
   def initialize(program, path, parameters={})
+    @program = program
     @base_url = program.base_url
     @path = path
     @parameters = parameters
@@ -34,8 +35,8 @@ class HTMLGetter
     EM.run {
       EM::Iterator.new(html_objects, 10).each(
         proc { |html_object, iterator|
-          p connection = EventMachine::HttpRequest.new(html_object.base_url)
-          p http = connection.get(path: html_object.build_path, query: html_object.build_parameters)
+          connection = EventMachine::HttpRequest.new(html_object.base_url)
+          http = connection.get(path: html_object.build_path, query: html_object.build_parameters)
           http.callback { |http|
             pages << http.response
             iterator.next
@@ -44,7 +45,7 @@ class HTMLGetter
         proc { EM.stop }
       )
     }
-   p pages
+   pages
   end
 
   def get_html(path, options={})

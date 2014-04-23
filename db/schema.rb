@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   add_index "programs", ["name"], name: "index_programs_on_name", using: :btree
   add_index "programs", ["url"], name: "index_programs_on_url", using: :btree
 
-  create_table "show_tracks", force: true do |t|
+  create_table "show_track_relations", force: true do |t|
     t.integer  "show_id"
     t.integer  "track_id"
     t.datetime "created_at"

@@ -1,7 +1,7 @@
 class Show < ActiveRecord::Base
   belongs_to :program
-  has_many :show_tracks
-  has_many :tracks, through: :show_tracks
+  has_many :show_track_relations
+  has_many :tracks, through: :show_track_relations
 
   def self.find_or_create_from_attributes(show_attributes, program)
     #find those programs that already have been created
@@ -16,9 +16,17 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def self.batch_remote_sync(shows)
+  def self.build_show_song_scaffolds(shows)
     html_objects = shows.map {|show| show.build_html_request_object }
     raw_html_responses = HTMLGetter.async_page_request(html_objects)
+    shows.zip(raw_html_responses)
+  end
+
+  def self.batch_remote_sync(shows)
+    shows_paired_with_html_response = build_show_song_scaffolds(shows)
+    #some class method on a new object that returns simple, iterate-able obejcts to simply track, artists, show_track creation
+    show_scaffolds = shows_paired_with_html_response.map {|(show, raw_html)| ShowSongScaffold.new(show, raw_html) }
+
     nested_song_attributes = raw_html_responses.map do |html_response|
       parse_raw_html(html_response)
     end
@@ -30,7 +38,7 @@ class Show < ActiveRecord::Base
           title: song_attribute_hash[:track_title].strip,
           artist: Artist.where(name: song_attribute_hash[:artist_name].strip).first_or_create
         ).first_or_create
-        ShowTrack.create(track_id: track.id, show_id: show.id)
+        ShowTrackRelation.create(track_id: track.id, show_id: show.id)
       end
     end
   end

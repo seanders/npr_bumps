@@ -49,9 +49,19 @@ describe Show do
     end
   end
 
+  describe "#build_show_song_scaffolds" do
+    it "should return an array containing array pairs of shows with their raw html responses" do
+      show = create(:show)
+      raw_html = File.open("/Users/sean/Desktop/npr_bumps/spec/mock_html/mock_show.html", "r").read
+      HTMLGetter.should_receive(:async_page_request).and_return([raw_html])
+      result = Show.build_show_song_scaffolds([show])
+      result.should eq([[show, raw_html]])
+    end
+  end
+
   describe "#batch_remote_sync" do
     it "should method_name" do
-
+      pending
     end
   end
 end
