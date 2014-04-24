@@ -7,6 +7,18 @@ describe Show do
     @stub_program.stub(:id) { 3 }
   end
 
+  describe "validations" do
+    it "should require remote_id" do
+      show = Show.create(program_id: 1)
+      show.valid?.should eq(false)
+    end
+
+    it "should require program_id" do
+      show = Show.create(remote_id: 1)
+      show.valid?.should eq(false)
+    end
+  end
+
   describe "#find_or_create_from_attributes" do
     it "should create new show objects if it doesn't already exist" do
       expect {
@@ -42,8 +54,8 @@ describe Show do
       parsed = Show.parse_raw_html(raw_html)
       parsed.should eq(
         [
-          { :track_title=>"Ballad of Sparrow Young", :artist_name=>" The Gentleman Losers" },
-          { :track_title=>"Street Beat", :artist_name=>" DJ Revolution" }
+          { :track_title=>"Ballad of Sparrow Young", :artist_name=>"The Gentleman Losers" },
+          { :track_title=>"Street Beat", :artist_name=>"DJ Revolution" }
         ]
       )
     end

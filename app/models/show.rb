@@ -2,6 +2,9 @@ class Show < ActiveRecord::Base
   belongs_to :program
   has_many :show_track_relations
   has_many :tracks, through: :show_track_relations
+  validates :remote_id, presence: true
+  validates :program_id, presence: true
+  validates_uniqueness_of :remote_id, scope: :program_id
 
   def self.find_or_create_from_attributes(show_attributes, program)
     #find those programs that already have been created

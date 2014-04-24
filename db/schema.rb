@@ -17,11 +17,13 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   enable_extension "plpgsql"
 
   create_table "artists", force: true do |t|
-    t.string   "name"
+    t.string   "name", null: false
     t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "artists", ["name"], name: "index_artists_on_name", using: :btree
 
   create_table "programs", force: true do |t|
     t.string   "name"
@@ -31,8 +33,8 @@ ActiveRecord::Schema.define(version: 20140401061916) do
     t.datetime "updated_at"
   end
 
-  add_index "programs", ["name"], name: "index_programs_on_name", using: :btree
-  add_index "programs", ["url"], name: "index_programs_on_url", using: :btree
+  add_index "programs", ["name"], name: "index_programs_on_name", unique: true, using: :btree
+  add_index "programs", ["url"], name: "index_programs_on_url", unique: true, using: :btree
 
   create_table "show_track_relations", force: true do |t|
     t.integer  "show_id"
@@ -40,6 +42,8 @@ ActiveRecord::Schema.define(version: 20140401061916) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "show_track_relations", ["show_id", "track_id"], name: "index_show_track_relations_on_show_and_track_ids", unique: true, using: :btree
 
   create_table "shows", force: true do |t|
     t.date     "date"
@@ -53,11 +57,13 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   add_index "shows", ["remote_id", "program_id"], name: "index_shows_on_remote_id_and_program_id", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
-    t.string   "title"
+    t.string   "title", null: false
     t.integer  "artist_id"
     t.string   "album_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "tracks", ["title", "artist_id"], name: "index_shows_on_title_and_artist_id", unique: true, using: :btree
 
 end

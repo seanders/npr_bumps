@@ -1,5 +1,7 @@
 class Program < ActiveRecord::Base
   has_many :shows
+  validates :name, uniqueness: true, presence: true
+  validates :url, uniqueness: true
 
   BASE_URL = "http://www.npr.org"
 

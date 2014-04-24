@@ -6,6 +6,29 @@ describe Program do
     @program.stub(:slug) { "all-things-considered" }
   end
 
+  describe "valiadtions" do
+    it "should require a name attribute" do
+      @program.save
+      @program.errors.count.should eq(1)
+    end
+
+    it "should validate uniqueness of the name attribute" do
+      create(:program, name: "lol")
+      @program.name = "lol"
+      @program.save
+      @program.errors.count.should eq(1)
+    end
+
+    it "should validate uniqueness of the url attribute" do
+      create(:program, url: "noob")
+      @program.url = "noob"
+      @program.name = "don'tmatter"
+      @program.save
+      @program.errors.count.should eq(1)
+    end
+
+  end
+
   describe ".base_url" do
     it "should return the BASE_URL constant for the class" do
       @program.base_url.should eq("http://www.npr.org")
