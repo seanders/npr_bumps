@@ -12,6 +12,7 @@ gem 'unicorn'
 gem 'nokogiri'
 gem 'httparty'
 gem 'em-http-request'
+gem 'jbuilder'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
