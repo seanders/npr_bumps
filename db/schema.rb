@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   enable_extension "plpgsql"
 
   create_table "artists", force: true do |t|
-    t.string   "name", null: false
+    t.string   "name",       null: false
     t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
 
   create_table "shows", force: true do |t|
     t.date     "date"
-    t.integer  "remote_id", null: false
+    t.integer  "remote_id",  null: false
     t.integer  "program_id", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   add_index "shows", ["remote_id", "program_id"], name: "index_shows_on_remote_id_and_program_id", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
-    t.string   "title", null: false
+    t.string   "title",      null: false
     t.integer  "artist_id"
     t.string   "album_name"
     t.datetime "created_at"

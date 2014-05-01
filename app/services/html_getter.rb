@@ -37,6 +37,7 @@ class HTMLGetter
         proc { |html_object, iterator|
           connection = EventMachine::HttpRequest.new(html_object.base_url)
           http = connection.get(path: html_object.build_path, query: html_object.build_parameters)
+          Rails.logger.info(http)
           http.callback { |http|
             pages << http.response
             iterator.next
