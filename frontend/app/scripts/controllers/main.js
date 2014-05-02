@@ -1,10 +1,5 @@
 'use strict';
 
-angular.module('frontendApp')
+angular.module('nprFrontend')
   .controller('MainCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
   });

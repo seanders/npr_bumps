@@ -30,7 +30,10 @@ GEM
     atomic (1.1.16)
     bcrypt (3.1.7)
     builder (3.1.4)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
     coderay (1.1.0)
+    connection_pool (2.0.0)
     cookiejar (0.3.1)
     diff-lcs (1.2.5)
     dotenv (0.10.0)
@@ -100,6 +103,9 @@ GEM
     rake (10.2.2)
     rdoc (4.1.1)
       json (~> 1.4)
+    redis (3.0.7)
+    redis-namespace (1.4.1)
+      redis (~> 3.0.4)
     rspec-core (2.14.8)
     rspec-expectations (2.14.5)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -115,6 +121,12 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    sidekiq (3.0.0)
+      celluloid (>= 0.15.2)
+      connection_pool (>= 2.0.0)
+      json
+      redis (>= 3.0.6)
+      redis-namespace (>= 1.3.1)
     slop (3.5.0)
     sprockets (2.12.0)
       hike (~> 1.2)
@@ -131,6 +143,7 @@ GEM
     thread_safe (0.3.1)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
+    timers (1.1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -159,6 +172,7 @@ DEPENDENCIES
   rdoc
   rspec-rails
   sdoc
+  sidekiq
   sql-logging
   unicorn
   zeus
