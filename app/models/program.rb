@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: programs
+#
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  url        :string(255)
+#  slug       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Program < ActiveRecord::Base
   has_many :shows
   validates :name, uniqueness: true, presence: true
@@ -13,7 +25,7 @@ class Program < ActiveRecord::Base
     # Note: NPR archive pages use the last date of each month to load the episodes for an entire month
     # http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
 
-    # Build array of html_objects for query
+    # Build array of html_objects for quer
     html_objects = build_html_request_objects(date_range)
 
     # Concurrently request each page; Need some EM magic here
@@ -32,6 +44,7 @@ class Program < ActiveRecord::Base
   end
 
   def build_html_request_objects(date_range)
+    #query NPR api for stories
     index_month_dates = build_archive_months(date_range)
     index_month_dates.map do |date|
       html_getter = HTMLGetter.new(self, "/archive", {date: date})

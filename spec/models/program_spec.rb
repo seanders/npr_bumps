@@ -6,7 +6,7 @@ describe Program do
     @program.stub(:slug) { "all-things-considered" }
   end
 
-  describe "valiadtions" do
+  describe "validations" do
     it "should require a name attribute" do
       @program.save
       @program.errors.count.should eq(1)

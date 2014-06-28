@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: shows
+#
+#  id         :integer          not null, primary key
+#  date       :date
+#  remote_id  :integer          not null
+#  program_id :integer          not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Show < ActiveRecord::Base
   belongs_to :program
   has_many :show_track_relations

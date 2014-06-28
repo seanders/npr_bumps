@@ -6,7 +6,6 @@ require 'net/https'
 require 'uri'
 
 gem 'rails', '4.0.4'
-gem 'jbuilder'
 gem 'pg'
 gem 'unicorn'
 gem 'nokogiri'
@@ -31,4 +30,5 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'sql-logging'
   gem 'pry'
+  gem 'annotate'
 end
