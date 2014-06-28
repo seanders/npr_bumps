@@ -1,0 +1,3 @@
+1. Use NPR api to get episode_id/date for each program we are syncing.
+2. Create/update episode_id/date and program relation for each episode object.
+3. Build HTML request objects and sync songs/artists
