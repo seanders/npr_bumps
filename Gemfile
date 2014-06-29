@@ -13,6 +13,7 @@ gem 'httparty'
 gem 'em-http-request'
 gem 'jbuilder'
 gem 'sidekiq'
+gem 'npr'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
