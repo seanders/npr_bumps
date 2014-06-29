@@ -1,3 +1,5 @@
+BASE_URL = "http://www.npr.org/programs/"
+
 programs = [
   "All Things Considered",
   "Fresh Air",
@@ -9,7 +11,16 @@ programs = [
   "Weekend Edition Sunday"
 ]
 
-BASE_URL = "http://www.npr.org/programs/"
+npr_ids = [
+  2,
+  13,
+  3,
+  5,
+  46,
+  35,
+  7,
+  10
+]
 
 urls = [
   "all-things-considered",
@@ -22,9 +33,9 @@ urls = [
   "weekend-edition-sunday"
 ]
 
-joint_array = programs.zip(urls)
-joint_array.each do |(program_name, url)|
-  Program.create(name: program_name, url: BASE_URL+url, slug: url)
+joint_array = programs.zip(urls, npr_ids)
+joint_array.each do |(program_name, url, npr_id)|
+  Program.create(name: program_name, url: BASE_URL+url, slug: url, npr_id: npr_id)
 end
 
 

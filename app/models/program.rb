@@ -6,6 +6,7 @@
 #  name       :string(255)
 #  url        :string(255)
 #  slug       :string(255)
+#  npr_id     :integer
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -51,13 +52,13 @@ class Program < ActiveRecord::Base
     end
   end
 
-  def build_archive_months(date_range)
-    months_in_between = date_range.months_in_between
-    month_index = (0..months_in_between)
-    month_index.map do |advance|
-      index_date = date_range.start_date.advance(months: advance).end_of_month
-    end
-  end
+  # def build_archive_months(date_range)
+  #   months_in_between = date_range.months_in_between
+  #   month_index = (0..months_in_between)
+  #   month_index.map do |advance|
+  #     index_date = date_range.start_date.advance(months: advance).end_of_month
+  #   end
+  # end
 
   # parse each page and create an array of maps containing remote_id and date of the show
   def parse_attributes_from_html(html=[])

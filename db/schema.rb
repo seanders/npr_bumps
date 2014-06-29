@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140401061916) do
     t.string   "name"
     t.string   "url"
     t.string   "slug"
+    t.integer  "npr_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
