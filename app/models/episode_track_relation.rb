@@ -9,10 +9,10 @@
 #  updated_at :datetime
 #
 
-class ShowTrackRelation < ActiveRecord::Base
-  belongs_to :show
+class EpisodeTrackRelation < ActiveRecord::Base
+  belongs_to :episode
   belongs_to :track
-  validates_uniqueness_of :show_id, scope: :track_id
-  validates :show_id, presence: true
+  validates_uniqueness_of :episode_id, scope: :track_id
+  validates :episode_id, presence: true
   validates :track_id, presence: true
 end

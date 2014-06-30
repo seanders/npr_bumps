@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401061916) do
+ActiveRecord::Schema.define(version: 20140629000511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,18 @@ ActiveRecord::Schema.define(version: 20140401061916) do
 
   add_index "artists", ["name"], name: "index_artists_on_name", using: :btree
 
+  create_table "episodes", force: true do |t|
+    t.integer  "npr_id"
+    t.datetime "date"
+    t.string   "url"
+    t.integer  "program_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "episodes", ["date"], name: "index_episodes_on_date", using: :btree
+  add_index "episodes", ["npr_id", "program_id"], name: "index_episodes_on_npr_id_and_program_id", unique: true, using: :btree
+
   create_table "programs", force: true do |t|
     t.string   "name"
     t.string   "url"
@@ -37,25 +49,14 @@ ActiveRecord::Schema.define(version: 20140401061916) do
   add_index "programs", ["name"], name: "index_programs_on_name", unique: true, using: :btree
   add_index "programs", ["url"], name: "index_programs_on_url", unique: true, using: :btree
 
-  create_table "show_track_relations", force: true do |t|
-    t.integer  "show_id"
+  create_table "episode_track_relations", force: true do |t|
+    t.integer  "episode_id"
     t.integer  "track_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "show_track_relations", ["show_id", "track_id"], name: "index_show_track_relations_on_show_and_track_ids", unique: true, using: :btree
-
-  create_table "shows", force: true do |t|
-    t.date     "date"
-    t.integer  "remote_id",  null: false
-    t.integer  "program_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "shows", ["date"], name: "index_shows_on_date", using: :btree
-  add_index "shows", ["remote_id", "program_id"], name: "index_shows_on_remote_id_and_program_id", unique: true, using: :btree
+  add_index "episode_track_relations", ["episode_id", "track_id"], name: "index_episode_track_relations_on_episode_and_track_ids", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "title",      null: false
