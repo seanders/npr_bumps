@@ -1,9 +1,9 @@
 # == Schema Information
 #
-# Table name: show_track_relations
+# Table name: episode_track_relations
 #
 #  id         :integer          not null, primary key
-#  show_id    :integer
+#  episode_id :integer
 #  track_id   :integer
 #  created_at :datetime
 #  updated_at :datetime

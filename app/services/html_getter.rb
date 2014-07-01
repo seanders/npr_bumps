@@ -14,7 +14,7 @@ class HTMLGetter
           http = connection.get
           Rails.logger.info(http)
           http.callback { |http|
-            pages << http.response
+            pages << {html_object: html_object, response: http.response}
             iterator.next
           }
         },

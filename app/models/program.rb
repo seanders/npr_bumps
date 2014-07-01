@@ -28,17 +28,18 @@ class Program < ActiveRecord::Base
     #Build array of episodes to sync
     episodes = sync_episodes(date_range)
 
-    # Build array of html_objects for quer
-    html_objects = build_html_request_objects(episodes)
-
     # Concurrently request each page; Need some EM magic here
-    html_pages = HTMLGetter.async_page_request(html_objects)
+    response_array = HTMLGetter.async_page_request(episodes)
 
-    # # parse html_pages for remote_ids of specific shows
-    show_attributes = parse_attributes_from_html(html_pages)
+    response_array.each do |hash|
+      episode, http_response = hash[:html_object], hash[:response]
+      # Update episode data
+      episode.update_date_from_html(http_response)
+      episode.sync_songs(http_response)
+    end
 
     # # Create shows with date and remote_id; NB: Overinclude will add shows potentially outside the specific date-range
-    shows = Show.find_or_create_from_attributes(show_attributes, self)
+    # shows = Show.find_or_create_from_attributes(show_attributes, self)
     # # for each show in date range, request that show page, scrape the track and create the show_track_relation
     # shows_needing_sync = Show.where(date: date_range.start_date..date_range.end_date)
 
@@ -57,22 +58,4 @@ class Program < ActiveRecord::Base
       Episode.create_with(program: self, url: hash[:url]).find_or_create_by(npr_id: hash[:id])
     end
   end
-
-  def build_html_request_objects(episodes)
-    episodes.map { |episode| HTMLGetter.new(episode.url) }
-  end
-
-  # parse each page and create an array of maps containing remote_id and date of the show
-  def parse_attributes_from_html(html=[])
-    nested_ids = html.map do |html_string|
-      Nokogiri::HTML(html_string).css(".program-archive-episode").map do |episode_tag|
-        {
-          remote_id: episode_tag.attribute("data-episode-id").value.to_i,
-          date:      episode_tag.attribute("data-episode-date").value
-        }
-      end
-    end
-    nested_ids.flatten
-  end
-
 end
