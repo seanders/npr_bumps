@@ -14,6 +14,7 @@ class Show < ActiveRecord::Base
   belongs_to :program
   has_many :show_track_relations
   has_many :tracks, through: :show_track_relations
+  validates :date, presence: true
   validates :remote_id, presence: true
   validates :program_id, presence: true
   validates_uniqueness_of :remote_id, scope: :program_id

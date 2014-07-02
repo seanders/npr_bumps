@@ -12,12 +12,10 @@
 #
 
 class Episode < ActiveRecord::Base
-  # Validations
   validates :npr_id, presence: true
   validates :program_id, presence: true
   validates_uniqueness_of :npr_id, scope: :program_id
 
-  # Relations
   belongs_to :program
   has_many :episode_track_relations
   has_many :tracks, through: :episode_track_relations
@@ -26,24 +24,38 @@ class Episode < ActiveRecord::Base
     "/programs/#{program.slug}/#{npr_id}"
   end
 
-  def sync_songs(html)
-    song_attributes_array = parse_song_data_from_html(html)
-    song_attributes_array.each do |attributes|
-      # find of create tracks here!
+  def sync_tracks(html)
+    tracks_attributes_array = parse_tracks_data_from_html(html)
+    tracks_attributes_array.each { |attributes| create_tracks_from_attributes(attributes) }
+  end
+
+  def create_tracks_from_attributes(attrs=nil)
+    #TODO: Return NULL ojbects to handle no data coming back.
+    # Wrap in transaction block to prevent shit tonnes of potentially bad data
+    begin
+      artist = Artist.where(name: attrs[:artist_name]).first_or_create
+      album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist
+      track = Track.create_with(album_id: album.id).where(
+        title: attrs[:track_title],
+        artist_id: artist.id
+      ).first_or_create!
+      tracks << track if track && !tracks.include?(track)
+    rescue
+      binding.pry
     end
   end
 
-  def parse_song_data_from_html(html)
+  def parse_tracks_data_from_html(html)
     Nokogiri::HTML(html).css(".musicwrap").map do |musicwrap_node|
-      music_node  = musicwrap_node.css("ol.mi-meta")
-      track_title = get_info_from_meta_node('Track', music_node)
-      artist_name = get_info_from_meta_node('Artist', music_node)
-      album_name  = get_info_from_meta_node('Album', music_node)
-      label_name  = get_info_from_meta_node('Label', music_node)
+      meta_node  = musicwrap_node.css("ol.mi-meta")
+      track_title = get_info_from_meta_node('Track', meta_node)
+      artist_name = get_info_from_meta_node('Artist', meta_node)
+      album_name  = get_info_from_meta_node('Album', meta_node)
+      label_name  = get_info_from_meta_node('Label', meta_node)
       # come back to add album information here
       {
-        track_title: track_title.try(:strip),
-        artist_name: artist_name.strip,
+        track_title: track_title,
+        artist_name: artist_name,
         album_name:  album_name,
         label_name:  label_name
       }
@@ -62,12 +74,21 @@ class Episode < ActiveRecord::Base
 
   private
 
-  def get_info_from_meta_node(inner_html, node)
-    element = node.search("dt:contains('#{inner_html}')")
+  def get_info_from_meta_node(term_type, node)
+    #   <dt>Artist</dt>
+    #   <dd>Curumin</dd>
+    term_node = node.search("dt:contains('#{term_type}')")
     # No data
-    return nil if element.empty?
-    node.search("dt:contains('#{inner_html}')").first.next_element.inner_text
+    return nil if term_node.empty?
+    get_description(term_node)
   end
+
+  def get_description(term_node)
+    result = term_node.first.next_element.inner_text.strip
+    # Sometimes the markup might have an empty <dd>
+    result.empty? ? nil : result
+  end
+
 end
 
 

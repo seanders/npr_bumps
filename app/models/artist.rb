@@ -10,6 +10,8 @@
 #
 
 class Artist < ActiveRecord::Base
+  validates :name, presence: true, uniqueness: true
+
   has_many :tracks
-  validates :name, presence: true
+  has_many :albums
 end

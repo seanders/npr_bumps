@@ -12,9 +12,11 @@
 #
 
 class Program < ActiveRecord::Base
-  has_many :episodes
   validates :name, uniqueness: true, presence: true
   validates :url, uniqueness: true
+  validates :npr_id, presence: true, uniqueness: true
+
+  has_many :episodes
 
   BASE_URL = "http://www.npr.org"
 
@@ -22,7 +24,7 @@ class Program < ActiveRecord::Base
     Program::BASE_URL
   end
 
-  def remote_sync_songs(date_range)
+  def sync_tracks(date_range)
     # Note: NPR archive pages use the last date of each month to load the episodes for an entire month
     # http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
     #Build array of episodes to sync
@@ -35,8 +37,10 @@ class Program < ActiveRecord::Base
       episode, http_response = hash[:html_object], hash[:response]
       # Update episode data
       episode.update_date_from_html(http_response)
-      episode.sync_songs(http_response)
+      episode.sync_tracks(http_response)
     end
+
+    true
 
     # # Create shows with date and remote_id; NB: Overinclude will add shows potentially outside the specific date-range
     # shows = Show.find_or_create_from_attributes(show_attributes, self)
