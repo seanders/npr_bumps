@@ -32,17 +32,14 @@ class Episode < ActiveRecord::Base
   def create_tracks_from_attributes(attrs=nil)
     #TODO: Return NULL ojbects to handle no data coming back.
     # Wrap in transaction block to prevent shit tonnes of potentially bad data
-    begin
-      artist = Artist.where(name: attrs[:artist_name]).first_or_create
-      album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist
-      track = Track.create_with(album_id: album.id).where(
-        title: attrs[:track_title],
-        artist_id: artist.id
-      ).first_or_create!
-      tracks << track if track && !tracks.include?(track)
-    rescue
-      binding.pry
-    end
+    artist = Artist.where(name: attrs[:artist_name]).first_or_create
+    album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist
+    track = Track.create_with(album_id: album.id).where(
+      title: attrs[:track_title],
+      artist_id: artist.id
+    ).first_or_create!
+    # Prevents duplicate associatons b/n an episode and a track (i.e. same song occuring in episode multiple times)
+    tracks << track if track && !tracks.include?(track)
   end
 
   def parse_tracks_data_from_html(html)

@@ -40,8 +40,6 @@ class Program < ActiveRecord::Base
       episode.sync_tracks(http_response)
     end
 
-    true
-
     # # Create shows with date and remote_id; NB: Overinclude will add shows potentially outside the specific date-range
     # shows = Show.find_or_create_from_attributes(show_attributes, self)
     # # for each show in date range, request that show page, scrape the track and create the show_track_relation
