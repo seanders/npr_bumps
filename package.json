@@ -1,0 +1,22 @@
+{
+  "name": "npr_bumps",
+  "version": "0.0.0",
+  "description": "Small script to save npr-interlude songs onto a spotify playlist",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/slicebo123/npr_bumps.git"
+  },
+  "keywords": [
+    "npr",
+    "spotify"
+  ],
+  "author": "Sean Miller",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/slicebo123/npr_bumps/issues"
+  },
+  "homepage": "https://github.com/slicebo123/npr_bumps",
+  "dependencies": {
+    "node-spotify": *
+  }
+}
