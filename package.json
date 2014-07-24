@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/slicebo123/npr_bumps",
   "dependencies": {
-    "node-spotify": *
+    "node-spotify": "*"
   }
 }
