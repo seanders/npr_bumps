@@ -20,3 +20,4 @@ config/secrets.yml
 /node_modules
 /cache
 /settings
+/config/user_credentials.js
