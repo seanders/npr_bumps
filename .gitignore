@@ -15,6 +15,7 @@
 /log/*.log
 /tmp
 config/secrets.yml
+config/spotify.yml
 .DS_Store
 *.key
 /node_modules
