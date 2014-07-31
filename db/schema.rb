@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731212932) do
+ActiveRecord::Schema.define(version: 20140731214759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,14 +54,23 @@ ActiveRecord::Schema.define(version: 20140731212932) do
   add_index "episodes", ["date"], name: "index_episodes_on_date", using: :btree
   add_index "episodes", ["npr_id", "program_id"], name: "index_episodes_on_npr_id_and_program_id", unique: true, using: :btree
 
-  create_table "people", force: true do |t|
-    t.string   "spotify_id"
-    t.string   "name"
+  create_table "linked_accounts", force: true do |t|
+    t.integer  "uid"
+    t.integer  'person_id'
+    t.string   "type"
+    t.string   "email"
     t.string   "image_url"
-    t.string   "token"
+    t.string   "oauth_token"
     t.string   "refresh_token"
     t.string   "expires_at"
     t.integer  "expires_in"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "people", force: true do |t|
+    t.string   "name"
+    t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
