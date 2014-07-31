@@ -11,20 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140702041244) do
+ActiveRecord::Schema.define(version: 20140731212932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "albums", force: true do |t|
-    t.string   "name", null: false
-    t.integer  "artist_id", null: false
+    t.string   "name"
+    t.integer  "artist_id"
     t.string   "label"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "albums", ["name", "artist_id"], name: "index_albums_on_name_and_artist_id", unique: true, using: :btree
 
   create_table "artists", force: true do |t|
     t.string   "name",       null: false
@@ -55,6 +53,18 @@ ActiveRecord::Schema.define(version: 20140702041244) do
 
   add_index "episodes", ["date"], name: "index_episodes_on_date", using: :btree
   add_index "episodes", ["npr_id", "program_id"], name: "index_episodes_on_npr_id_and_program_id", unique: true, using: :btree
+
+  create_table "people", force: true do |t|
+    t.string   "spotify_id"
+    t.string   "name"
+    t.string   "image_url"
+    t.string   "token"
+    t.string   "refresh_token"
+    t.string   "expires_at"
+    t.integer  "expires_in"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "programs", force: true do |t|
     t.string   "name"
