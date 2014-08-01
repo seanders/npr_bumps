@@ -1,11 +1,11 @@
 class AuthHash
 
-  attr_reader :uid, :type, :email, :name
+  attr_reader :uid, :type, :email, :name, :image_url, :token, :refresh_token, :expires_at
 
   def initialize(auth_data)
     user_info = auth_data['info']
     @uid = auth_data['uid']
-    @type = auth_data['type']
+    @type = auth_data['provider']
     @name = user_info['name']
     @email = user_info['email']
     @image_url = user_info['image']
