@@ -3,8 +3,8 @@
 # Table name: albums
 #
 #  id         :integer          not null, primary key
-#  name       :string(255)      not null
-#  artist_id  :integer          not null
+#  name       :string(255)
+#  artist_id  :integer
 #  label      :string(255)
 #  created_at :datetime
 #  updated_at :datetime

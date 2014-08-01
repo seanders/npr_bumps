@@ -56,7 +56,7 @@ ActiveRecord::Schema.define(version: 20140731214759) do
 
   create_table "linked_accounts", force: true do |t|
     t.integer  "uid"
-    t.integer  'person_id'
+    t.integer  "person_id"
     t.string   "type"
     t.string   "email"
     t.string   "image_url"

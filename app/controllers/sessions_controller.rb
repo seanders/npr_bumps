@@ -1,6 +1,8 @@
 class SessionsController < ApplicationController
 
   def create
+    binding.pry
+    @person = Person.find_or_create_from_oauth(auth_hash)
     #find or create using Spotify data
     # create access token for User to support FE API calls
   end
@@ -8,6 +10,6 @@ class SessionsController < ApplicationController
   private
 
   def auth_hash
-    request.env['omniauth.auth']
+    @auth_hash ||= AuthHash.new(request.env['omniauth.auth'])
   end
 end
