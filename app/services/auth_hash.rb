@@ -9,9 +9,9 @@ class AuthHash
     @name = user_info['name']
     @email = user_info['email']
     @image_url = user_info['image']
-    @token = user_info['credentials']['token']
-    @refresh_token = user_info['credentials']['refresh_token']
-    @expires_at = user_info['credentials']['expires_at']
+    @token = auth_data['credentials']['token']
+    @refresh_token = auth_data['credentials']['refresh_token']
+    @expires_at = auth_data['credentials']['expires_at']
   end
 
   def linked_account_attributes

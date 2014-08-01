@@ -1,4 +1,5 @@
-def oauth_hash
+module AuthHashSpec
+  def oauth_hash
   {"provider"=>"spotify",
    "uid"=>"1",
    "info"=>
@@ -31,4 +32,6 @@ def oauth_hash
           "product"=>"premium",
           "type"=>"user",
           "uri"=>"spotify:user:1"}}}
+end
+
 end

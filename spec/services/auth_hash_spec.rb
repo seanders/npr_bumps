@@ -1,14 +1,10 @@
 require 'spec_helper'
 
-describe AuthHash do
-
-  before(:each) do
-    @auth_data = File.read('')
-  end
-
+describe AuthHash, :requires => :oauth_spec_module do
+  let(:init) { AuthHash.new(oauth_hash) }
   describe '#initialize' do
     it 'should assign uid' do
-      p oauth_hash
+      expect(init.uid).to eq()
     end
   end
 end
