@@ -7,6 +7,7 @@
 #  person_id     :integer
 #  type          :string(255)
 #  email         :string(255)
+#  name          :string(255)
 #  image_url     :string(255)
 #  oauth_token   :string(255)
 #  refresh_token :string(255)
