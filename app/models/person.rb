@@ -14,16 +14,13 @@ class Person < ActiveRecord::Base
 
   validates :email, presence: true
 
-  def find_or_create_from_oauth(auth_obj)
-    linked_account = LinkedAccount.
-                      where(uid: auth_obj.uid, type: auth_obj.type).
-                      first_or_initialize(auth_obj.linked_account_attributes)
+  def self.find_or_create_from_oauth(auth_obj)
+    linked_account = LinkedAccount.find_or_initialize(auth_obj)
 
     if linked_account.persisted?
       return linked_account.person
     else
-      person = Person.create(email: auth['email'], name: auth['name'])
-      linked_account.person = person
+      linked_account.person = Person.create(email: auth_obj.email, name: auth_obj.name)
       linked_account.save!
       return linked_account.person
     end

@@ -40,11 +40,4 @@ describe AuthHash, :requires => :oauth_spec_module do
       expect(@auth_hash.expires_at).to eq(1406849118)
     end
   end
-
-  describe '#linked_account_attributes' do
-    it 'should return a hash of the attributes necessary for created a linked account' do
-      hash = AuthHash.new(oauth_hash).linked_account_attributes
-      expect(hash.keys).to eq([:uid,:type,:name,:email,:image_url,:token,:refresh_token,:expires_at])
-    end
-  end
 end

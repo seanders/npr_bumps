@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20140731214759) do
     t.integer  "person_id"
     t.string   "type"
     t.string   "email"
+    t.string   "name"
     t.string   "image_url"
     t.string   "oauth_token"
     t.string   "refresh_token"

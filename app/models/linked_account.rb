@@ -25,4 +25,32 @@ class LinkedAccount < ActiveRecord::Base
   validates :person, presence: true
   validates :oauth_token, presence: true
   validates :type, presence: true
+
+
+  def self.find_or_initialize(auth_obj)
+    where(uid: auth_obj.uid, type: param_to_type(auth_obj.type)).
+      first_or_initialize(convert_auth_obj_to_attributes(auth_obj))
+  end
+
+  private
+
+  def self.convert_auth_obj_to_attributes(auth_object)
+    {
+      uid: auth_object.uid,
+      type: param_to_type(auth_object.type),
+      name: auth_object.name,
+      email: auth_object.email,
+      image_url: auth_object.image_url,
+      oauth_token: auth_object.token,
+      refresh_token: auth_object.refresh_token,
+      expires_at: auth_object.expires_at
+    }
+  end
+
+  def self.param_to_type(type)
+    case type
+    when 'spotify'
+      'LinkedAccount::Spotify'
+    end
+  end
 end

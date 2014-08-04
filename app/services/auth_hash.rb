@@ -13,17 +13,4 @@ class AuthHash
     @refresh_token = auth_data['credentials']['refresh_token']
     @expires_at = auth_data['credentials']['expires_at']
   end
-
-  def linked_account_attributes
-    {
-      uid: @uid,
-      type: @type,
-      name: @name,
-      email: @email,
-      image_url: @image_url,
-      token: @token,
-      refresh_token: @refresh_token,
-      expires_at: @expires_at
-    }
-  end
 end

@@ -20,6 +20,8 @@ module NprBumps
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
 
+    # Custom directories with modules/classes/subclasses that we want loaded
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/')]
     #Automatically establish connection to DB when console is initiated
     console do
       ActiveRecord::Base.connection
