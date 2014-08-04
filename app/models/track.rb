@@ -19,4 +19,8 @@ class Track < ActiveRecord::Base
   belongs_to :album
   has_many :episode_track_relations
   has_many :episodes, through: :episode_track_relations
+
+  def sync_spotify_data
+
+  end
 end

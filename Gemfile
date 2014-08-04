@@ -12,9 +12,10 @@ gem 'nokogiri'
 gem 'httparty'
 gem 'em-http-request'
 gem 'jbuilder'
-gem 'sidekiq'
+# gem 'sidekiq'
 gem 'npr'
 gem 'omniauth-spotify'
+gem 'spotify-client'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

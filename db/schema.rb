@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(version: 20140731214759) do
     t.string   "title",      null: false
     t.integer  "artist_id"
     t.integer  "album_id"
+    t.string   "external_id"
+    t.string   "spotify_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

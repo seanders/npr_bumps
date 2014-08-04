@@ -24,7 +24,7 @@ class Program < ActiveRecord::Base
     Program::BASE_URL
   end
 
-  def sync_tracks(date_range)
+  def sync_tracks(date_range = DateTime.now)
     # Note: NPR archive pages use the last date of each month to load the episodes for an entire month
     # http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
     #Build array of episodes to sync
@@ -39,14 +39,6 @@ class Program < ActiveRecord::Base
       episode.update_date_from_html(http_response)
       episode.sync_tracks(http_response)
     end
-
-    # # Create shows with date and remote_id; NB: Overinclude will add shows potentially outside the specific date-range
-    # shows = Show.find_or_create_from_attributes(show_attributes, self)
-    # # for each show in date range, request that show page, scrape the track and create the show_track_relation
-    # shows_needing_sync = Show.where(date: date_range.start_date..date_range.end_date)
-
-    # Show.batch_remote_sync(shows_needing_sync)
-
   end
 
   def sync_episodes(date_range)
