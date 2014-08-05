@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SpotifyTrackSyncer do
   let(:track_syncer) { SpotifyTrackSyncer.instance }
-  let(:track) { track = double(artist: double(name: "foo"), album: double(name: 'bar'), name: 'song title') }
+  let(:track) { track = double(artist: double(name: "foo"), album: double(name: 'bar'), title: 'song title') }
   describe '#sync_track' do
     it 'should update the spotify_id and external_id attributes on a track' do
       allow(track_syncer).to receive(:spotify_client) {double(search: true)}

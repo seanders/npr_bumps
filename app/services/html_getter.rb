@@ -13,10 +13,16 @@ class HTMLGetter
           connection = EventMachine::HttpRequest.new(html_object.url)
           http = connection.get
           Rails.logger.info(http)
+          # success callback
           http.callback { |http|
             pages << {html_object: html_object, response: http.response}
             iterator.next
           }
+          # error callback
+          http.errback do |http|
+            p "Failed: #{html_object.url} #{http.response}"
+            iter.next
+          end
         },
         proc { EM.stop }
       )

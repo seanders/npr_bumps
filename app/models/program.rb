@@ -29,6 +29,8 @@ class Program < ActiveRecord::Base
     # http://www.npr.org/programs/all-things-considered/archive?date=3-31-2014
     #Build array of episodes to sync
     episodes = sync_episodes(date_range)
+    # Guard clause if there is no episode data.
+    return false unless episodes
 
     # Concurrently request each page; Need some EM magic here
     response_array = HTMLGetter.async_page_request(episodes)
@@ -43,6 +45,8 @@ class Program < ActiveRecord::Base
 
   def sync_episodes(date_range)
     raw_response = Npr::Api.new.get_episodes(id: npr_id, date: date_range)
+    # If there are no stories for this day, simply return false.
+    return false if raw_response.empty?
     episode_ids_with_urls = Npr::Parser.new(raw_response).parse_episode_ids_and_urls
     create_episodes_from_npr_ids(episode_ids_with_urls)
   end

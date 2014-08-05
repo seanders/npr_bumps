@@ -15,17 +15,18 @@ class Npr::Api
 
   def get_episodes(options = {})
     options[:date] = parse_date(options[:date])
-    @response += stories = query(options.merge({fields: episode_fields})).list.stories
+    api_response = query(options.merge({fields: episode_fields}))
+    @response += api_response.list.stories if api_response.messages.first.try(:id) != StatusCodes::NO_RESULTS
     # If the API returns fewer results than the per_page, we know we have exhausted all possible responses
-    return @response if stories.count < PER_PAGE
+    return @response if api_response.list.stories.count < PER_PAGE
     # Poll the API until we have received all responses. There doesn't seem to be rate limiting.
     get_episodes(options.merge(startNum: @response.count))
   end
 
   def query(options = {})
-    response = NPR::Story.where(options).limit(PER_PAGE).query
-    raise NoData, "No results for this query" if response.messages.first.try(:id) == StatusCodes::NO_RESULTS
-    response
+    NPR::Story.where(options).limit(PER_PAGE).query
+    # raise NoDataError, "No results for this query:\n#{options}" if response.messages.first.try(:id) == StatusCodes::NO_RESULTS
+    # response
   end
 
   private
