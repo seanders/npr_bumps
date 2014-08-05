@@ -2,11 +2,6 @@ class SpotifyTrackSyncer
   # attr_reader :spotify_client
   include Singleton
 
-  def spotify_client
-    # load the config; perhaps from a yml file
-    @spotify_client ||= Spotify::Client.new()
-  end
-
   def sync_track(track)
     # take track object, and search Spotify API for data
     search_params = build_track_search_params(track)
@@ -14,6 +9,11 @@ class SpotifyTrackSyncer
     api_response = spotify_client.search(:track, search_params)
     spotify_and_external_ids = parse_external_ids_from_api_response(api_response)
     track.update_attributes(spotify_and_external_ids)
+  end
+
+  def spotify_client
+    # load the config; perhaps from a yml file
+    @spotify_client ||= Spotify::Client.new()
   end
 
   def parse_external_ids_from_api_response(api_response)
