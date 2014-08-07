@@ -1,6 +1,9 @@
 class HTMLGetter
   attr_reader :url
 
+  class PageLoadError < StandardError
+  end
+
   def initialize(url)
     @url = url
   end
@@ -20,7 +23,7 @@ class HTMLGetter
           }
           # error callback
           http.errback do |http|
-            p "Failed: #{html_object.url} #{http.response}"
+            raise PageLoadError, "Failed: #{html_object.url} #{http.response}"
             iter.next
           end
         },

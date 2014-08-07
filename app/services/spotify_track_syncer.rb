@@ -13,6 +13,20 @@ class SpotifyTrackSyncer
     track.update_attributes(spotify_and_external_ids)
   end
 
+  def self.batch_sync_tracks(tracks_array)
+    EM.run {
+      EM::Iterator.new(tracks_array, 5).each(
+        proc { |track, iterator|
+          EM.defer(
+            proc { self.sync_track(track) },
+            proc { |result| iterator.next }
+          )
+        },
+        proc { |result| EM.stop }
+      )
+    }
+  end
+
   def self.spotify_client
     # load the config; perhaps from a yml file
     @spotify_client ||= Spotify::Client.new()

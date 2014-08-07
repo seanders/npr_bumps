@@ -2,7 +2,7 @@ development:
   adapter: postgresql
   encoding: unicode
   database: npr_bumps_development
-  pool: 5
+  pool: 20
   username: postgres
   password:
 
@@ -10,7 +10,7 @@ test:
   adapter: postgresql
   encoding: unicode
   database: npr_bumps_test
-  pool: 5
+  pool: 20
   username: postgres
   password:
 
@@ -18,6 +18,6 @@ production:
   adapter: postgresql
   encoding: unicode
   database: npr_bumps_production
-  pool: 5
+  pool: 20
   username: npr_bumps
   password:
