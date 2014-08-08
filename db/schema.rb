@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20140807223943) do
     t.string   "name"
     t.integer  "artist_id"
     t.string   "label"
+    t.string   "spotify_id"
     t.string   "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"

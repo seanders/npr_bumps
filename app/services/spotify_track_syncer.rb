@@ -13,8 +13,13 @@ class SpotifyTrackSyncer
     end
 
     spotify_and_external_ids = parse_external_ids_from_api_response(api_response)
-    album_data = parse_album_data_from_api_response(api_response)
+    album_attrs = parse_album_attrs_from_api_response(api_response)
+
     track.assign_attributes(spotify_and_external_ids)
+    album = track.album || track.build_album
+    album.assign_attributes(album_attrs.merge(artist_id: track.artist_id))
+    album.save!
+    track.save!
   end
 
   def self.batch_sync_tracks(tracks_array)
@@ -43,8 +48,9 @@ class SpotifyTrackSyncer
     {spotify_id: track_object['id'], external_ids: track_object['external_ids']}
   end
 
-  def parse_album_data_from_api_response(api_response)
-
+  def self.parse_album_attrs_from_api_response(api_response)
+    album_object = api_response['tracks']['items'].first['album']
+    {name: album_object['name'], spotify_id: album_object['id'], image_url: album_object['images'].select {|e| e['height'] == 640}.first['url']}
   end
 
   private
