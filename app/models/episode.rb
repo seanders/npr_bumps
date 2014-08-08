@@ -25,38 +25,21 @@ class Episode < ActiveRecord::Base
   end
 
   def sync_tracks(html)
-    tracks_attributes_array = parse_tracks_data_from_html(html)
+    tracks_attributes_array = HtmlParser.new.build_track_attributes_array_from_html(html)
     tracks_attributes_array.each { |attributes| create_tracks_from_attributes(attributes) }
   end
 
   def create_tracks_from_attributes(attrs=nil)
     #TODO: Return NULL ojbects to handle no data coming back.
     # Wrap in transaction block to prevent shit tonnes of potentially bad data
-    artist = Artist.where(name: attrs[:artist_name]).first_or_create
-    album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist
-    track = Track.create_with(album_id: album.id).where(
+    artist = Artist.where(name: attrs[:artist_name]).first_or_create if attrs[:artist_name]
+    album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist && attrs[:album_name]
+    track = Track.create_with(album_id: album.try(:id)).where(
       title: attrs[:track_title],
-      artist_id: artist.id
+      artist_id: artist.try(:id)
     ).first_or_create!
     # Prevents duplicate associatons b/n an episode and a track (i.e. same song occuring in episode multiple times)
     tracks << track if track && !tracks.include?(track)
-  end
-
-  def parse_tracks_data_from_html(html)
-    Nokogiri::HTML(html).css(".musicwrap").map do |musicwrap_node|
-      meta_node  = musicwrap_node.css("ol.mi-meta")
-      track_title = get_info_from_meta_node('Track', meta_node)
-      artist_name = get_info_from_meta_node('Artist', meta_node)
-      album_name  = get_info_from_meta_node('Album', meta_node)
-      label_name  = get_info_from_meta_node('Label', meta_node)
-      # come back to add album information here
-      {
-        track_title: track_title,
-        artist_name: artist_name,
-        album_name:  album_name,
-        label_name:  label_name
-      }
-    end
   end
 
   def update_date_from_html(html)
@@ -69,33 +52,4 @@ class Episode < ActiveRecord::Base
     DateTime.parse(date)
   end
 
-  private
-
-  def get_info_from_meta_node(term_type, node)
-    #   <dt>Artist</dt>
-    #   <dd>Curumin</dd>
-    term_node = node.search("dt:contains('#{term_type}')")
-    # No data
-    return nil if term_node.empty?
-    get_description(term_node)
-  end
-
-  def get_description(term_node)
-    result = term_node.first.next_element.inner_text.strip
-    # Sometimes the markup might have an empty <dd>
-    result.empty? ? nil : result
-  end
-
 end
-
-
-# <ol class="mi-meta">
-#   <dt>Artist</dt>
-#   <dd>Curumin</dd>
-#   <dt>Track</dt>
-#   <dd>Blimblim</dd>
-#   <dt>Album</dt>
-#   <dd>Arrocha!</dd>
-#   <dt>Label</dt>
-#   <dd>Six Degrees</dd>
-# </ol>

@@ -14,5 +14,7 @@
 require 'spec_helper'
 
 describe Episode do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:episode)  { create(:episode) }
+  describe '#parse_tracks_data_from_html' do
+  end
 end

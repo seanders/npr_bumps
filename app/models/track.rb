@@ -2,14 +2,14 @@
 #
 # Table name: tracks
 #
-#  id          :integer          not null, primary key
-#  title       :string(255)      not null
-#  artist_id   :integer
-#  album_id    :integer
-#  external_id :string(255)
-#  spotify_id  :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id           :integer          not null, primary key
+#  title        :string(255)      not null
+#  artist_id    :integer
+#  album_id     :integer
+#  external_ids :string(255)
+#  spotify_id   :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
 #
 
 class Track < ActiveRecord::Base

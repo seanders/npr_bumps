@@ -6,11 +6,15 @@ class SpotifyTrackSyncer
     search_params = build_track_search_params(track)
     # parse results for best match
     api_response = spotify_client.search(:track, search_params)
+
+    # return if no matches
     if api_response['tracks']['total'].to_i == 0
       return track
     end
+
     spotify_and_external_ids = parse_external_ids_from_api_response(api_response)
-    track.update_attributes(spotify_and_external_ids)
+    album_data = parse_album_data_from_api_response(api_response)
+    track.assign_attributes(spotify_and_external_ids)
   end
 
   def self.batch_sync_tracks(tracks_array)
@@ -37,6 +41,10 @@ class SpotifyTrackSyncer
     # for a particular track
     track_object = api_response['tracks']['items'].first
     {spotify_id: track_object['id'], external_ids: track_object['external_ids']}
+  end
+
+  def parse_album_data_from_api_response(api_response)
+
   end
 
   private
