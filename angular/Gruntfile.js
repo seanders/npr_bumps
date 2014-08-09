@@ -7,6 +7,7 @@
 // use this if you want to recursively match all subfolders:
 // 'test/spec/**/*.js'
 
+var modRewrite = require('connect-modrewrite');
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -21,14 +22,43 @@ module.exports = function (grunt) {
     dist: 'dist'
   };
 
+  // load npm tasks
+  // grunt.loadNpmTasks('grunt-include-source');
+
   // Define the configuration for all the tasks
   grunt.initConfig({
+
+    // includeSource: {
+    //   options: {
+    //     basePath: 'app',
+    //     templates: {
+    //       html: {
+    //         js: '<script src="{filePath}"></script>',
+    //         css: '<link rel="stylesheet" type="text/css" href="{filePath}" />'
+    //       }
+    //     }
+    //   },
+    //   server: {
+    //     files: {
+    //       '<%= yeoman.app %>/index.html': '<%= yeoman.app %>/index.html'
+    //     }
+    //   },
+    //   dist: {
+    //     files: {
+    //       '<%= yeoman.dist %>/index.html': '<%= yeoman.app %>/index.html'
+    //     }
+    //   }
+    // },
 
     // Project settings
     yeoman: appConfig,
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
+      // includeSource: {
+      //    files: ['<%= yeoman.app %>/scripts/**/*.js'],
+      //    tasks: ['includeSource:server']
+      //  },
       bower: {
         files: ['bower.json'],
         tasks: ['wiredep']
@@ -76,6 +106,7 @@ module.exports = function (grunt) {
           open: true,
           middleware: function (connect) {
             return [
+              modRewrite(['!\\.(html|png|jpg|gif|jpeg|ico|js|css|eot|ttf|svg|woff|swf|txt)$ /index.html']),
               connect.static('.tmp'),
               connect().use(
                 '/bower_components',
