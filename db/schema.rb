@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140807223943) do
+ActiveRecord::Schema.define(version: 20140813021357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "hstore"
 
   create_table "albums", force: true do |t|
     t.string   "name"
@@ -91,9 +92,10 @@ ActiveRecord::Schema.define(version: 20140807223943) do
   add_index "programs", ["url"], name: "index_programs_on_url", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
-    t.string   "title",        null: false
+    t.string   "title",          null: false
     t.integer  "artist_id"
     t.integer  "album_id"
+    t.hstore   "npr_attributes"
     t.string   "external_ids"
     t.string   "spotify_id"
     t.datetime "created_at"
