@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20140813021357) do
   create_table "albums", force: true do |t|
     t.string   "name"
     t.integer  "artist_id"
-    t.string   "label"
     t.string   "spotify_id"
     t.string   "image_url"
     t.datetime "created_at"

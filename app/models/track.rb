@@ -14,6 +14,7 @@
 
 class Track < ActiveRecord::Base
   serialize :external_ids
+  # serialize :npr_attributes
 
   validates :title, presence: true
   validates_uniqueness_of :title, scope: :album_id

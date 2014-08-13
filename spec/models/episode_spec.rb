@@ -14,7 +14,21 @@
 require 'spec_helper'
 
 describe Episode do
-  let(:episode)  { create(:episode) }
-  describe '#parse_tracks_data_from_html' do
+
+  let(:episode) { create(:episode) }
+  describe '#sync_tracks' do
+    it 'should create tracks from raw html' do
+      raw_html = File.open(Rails.root+'spec/mock_html/music_wrap_meta.html', 'r')
+      expect(episode).to receive(:create_tracks_from_attributes).once
+      episode.sync_tracks(raw_html)
+    end
+  end
+
+  describe '#create_tracks_from_attributes' do
+    it 'should create a track object' do
+      attrs = { track_title: "Foobar" }
+      expect(Track).to receive()
+      episode.create_tracks_from_attributes(attrs)
+    end
   end
 end
