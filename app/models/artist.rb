@@ -14,4 +14,8 @@ class Artist < ActiveRecord::Base
 
   has_many :tracks
   has_many :albums
+
+  def self.find_or_create_from_name(attrs)
+    Artist.where(attrs).first_or_create
+  end
 end

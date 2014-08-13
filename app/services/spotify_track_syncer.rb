@@ -17,7 +17,9 @@ class SpotifyTrackSyncer
 
     track.assign_attributes(spotify_and_external_ids)
     album = track.album || track.build_album
-    album.assign_attributes(album_attrs.merge(artist_id: track.artist_id))
+    #pull artist from api_response
+    artist = track.artist_id || Artist.find_or_create_from_attrs(parse_artist_attrs_from_api_response(api_response))
+    album.assign_attributes(album_attrs.merge(artist_id: artist.id))
     album.save!
     track.save!
   end
@@ -50,7 +52,16 @@ class SpotifyTrackSyncer
 
   def self.parse_album_attrs_from_api_response(api_response)
     album_object = api_response['tracks']['items'].first['album']
-    {name: album_object['name'], spotify_id: album_object['id'], image_url: album_object['images'].select {|e| e['height'] == 640}.first['url']}
+    {
+      name:       album_object['name'],
+      spotify_id: album_object['id'],
+      image_url:  album_object['images'].first['url']
+    }
+  end
+
+  def self.parse_artist_attrs_from_api_response(api_response)
+    artist_object = api_response['tracks']['items'].first['artists']
+    artist_object.map {|artist| {name: artist['name']} }
   end
 
   private
