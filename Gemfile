@@ -16,6 +16,7 @@ gem 'jbuilder'
 gem 'npr'
 gem 'omniauth-spotify'
 gem 'spotify-client'
+gem 'haml'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

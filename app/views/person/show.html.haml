@@ -1,0 +1,8 @@
+%div
+  %span= @person.name
+  %span= @person.email
+
+%div
+  = form_for(@person, html: {name: 'foobar'}) do |f|
+    = f.label :name, "Name"
+    = f.text_field :name
