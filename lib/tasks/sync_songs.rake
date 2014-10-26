@@ -12,4 +12,3 @@ task :sync_song_data_from_spotify => :environment do
   # SpotifyTrackSyncer.batch_sync_tracks(newly_created_tracks)
   newly_created_tracks.each { |track| SpotifyTrackSyncer.sync_track(track) }
 end
-

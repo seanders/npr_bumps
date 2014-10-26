@@ -32,4 +32,14 @@ describe SpotifyTrackSyncer do
       expect(track_syncer.spotify_client).to be_a(Spotify::Client)
     end
   end
+
+  describe '#build_artists_from_attributes_array' do
+    it 'should return an array of Artist objects if it has an artist_name attribute' do
+
+    end
+
+    it 'should return an array with NullArtist attributes if there is no artist name attribute' do
+
+    end
+  end
 end

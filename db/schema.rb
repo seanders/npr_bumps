@@ -44,6 +44,25 @@ ActiveRecord::Schema.define(version: 20140813021357) do
 
   add_index "episode_track_relations", ["episode_id", "track_id"], name: "index_episode_track_relations_on_episode_and_track_ids", unique: true, using: :btree
 
+
+  create_table "track_artist_relations", force: true do |t|
+    t.integer  "track_id"
+    t.integer  "artist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "track_artist_relations", ["track_id", "artist_id"], name: "index_track_artist_relations_on_track_and_artist_ids", unique: true, using: :btree
+
+  create_table "album_artist_relations", force: true do |t|
+    t.integer  "album_id"
+    t.integer  "artist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "album_artist_relations", ["album_id", "artist_id"], name: "index_album_artist_relations_on_album_and_artist_ids", unique: true, using: :btree
+
   create_table "episodes", force: true do |t|
     t.integer  "npr_id"
     t.datetime "date"

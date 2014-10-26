@@ -8,8 +8,7 @@ class HtmlNode::Meta < HtmlNode::Base
     {
       track_title: get_info_from_meta_node('Track', @meta_node),
       artist_name: get_info_from_meta_node('Artist', @meta_node),
-      album_name:  get_info_from_meta_node('Album', @meta_node),
-      label_name:  get_info_from_meta_node('Label', @meta_node)
+      album_name:  get_info_from_meta_node('Album', @meta_node)
     }
   end
 

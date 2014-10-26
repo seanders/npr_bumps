@@ -1,4 +1,4 @@
-# == Schema Information
+  # == Schema Information
 #
 # Table name: episodes
 #
@@ -32,15 +32,13 @@ class Episode < ActiveRecord::Base
   def create_tracks_from_attributes(attrs=nil)
     #TODO: Return NULL ojbects to handle no data coming back.
     # Wrap in transaction block to prevent shit tonnes of potentially bad data
-    # artist = Artist.where(name: attrs[:artist_name]).first_or_create if attrs[:artist_name]
-    # album = artist.albums.where(name: attrs[:album_name], label: attrs[:label_name]).first_or_create if artist && attrs[:album_name]
-    tracks.where("title = ? AND npr_attributes -> 'artist_name' = ? AND npr_attributes -> 'album_name' = ?",
+    track = tracks.where("title = ? AND npr_attributes @> hstore('artist_name', ?) AND npr_attributes @> hstore('album_name', ?)",
       attrs[:track_title],
       attrs[:artist_name],
       attrs[:album_name]
-    ).first_or_create!(title: attrs[:track_title], npr_attributes: {artist_name: attrs[:artist_name], album_name: attrs[:album_name]})
-    # Prevents duplicate associatons b/n an episode and a track (i.e. same song occuring in episode multiple times)
-    # tracks << track if track && !tracks.include?(track)
+    ).first_or_initialize(title: attrs[:track_title], npr_attributes: {artist_name: attrs[:artist_name], album_name: attrs[:album_name]})
+
+    tracks << track if track.new_record?
   end
 
   def update_date_from_html(html)

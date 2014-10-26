@@ -62,6 +62,7 @@ GEM
       thor (>= 0.13.6)
     hashie (3.2.0)
     hike (1.2.3)
+    hirb (0.7.2)
     http_parser.rb (0.6.0)
     httparty (0.11.0)
       multi_json (~> 1.0)
@@ -183,6 +184,7 @@ DEPENDENCIES
   em-http-request
   factory_girl_rails
   foreman
+  hirb
   httparty
   jbuilder
   nokogiri

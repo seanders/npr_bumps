@@ -1,0 +1,3 @@
+class NullArtist
+
+end

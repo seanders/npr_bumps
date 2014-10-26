@@ -34,4 +34,5 @@ group :development, :test do
   gem 'sql-logging'
   gem 'pry'
   gem 'annotate'
+  gem 'hirb'
 end

@@ -22,4 +22,17 @@ describe Artist do
       @artist.save.should eq(false)
     end
   end
+
+  describe '#self.find_or_create_from_name' do
+    it 'should find or create an artist if given a name attribute' do
+      attrs = {name: "Xzibit"}
+      allow(Artist).to receive(:find_or_create_by) { build_stubbed(:artist, name: attrs[:name]) }
+      expect(Artist.find_or_create_from_name(attrs).name).to eq(attrs[:name])
+    end
+
+    it 'should return nil if artist name does not exist' do
+      attrs = {name: nil}
+      expect(Artist.find_or_create_from_name(attrs)).to be nil
+    end
+  end
 end

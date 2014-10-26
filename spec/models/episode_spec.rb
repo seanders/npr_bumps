@@ -26,9 +26,10 @@ describe Episode do
 
   describe '#create_tracks_from_attributes' do
     it 'should create a track object' do
-      attrs = { track_title: "Foobar" }
-      expect(Track).to receive()
-      episode.create_tracks_from_attributes(attrs)
+      attrs = { track_title: "Foobar",  artist_name: "artist", album_name: "lol" }
+      expect{
+        episode.create_tracks_from_attributes(attrs)
+      }.to change{Track.count}.by(1)
     end
   end
 end

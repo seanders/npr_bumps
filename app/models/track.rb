@@ -20,7 +20,8 @@ class Track < ActiveRecord::Base
   validates_uniqueness_of :title, scope: :album_id
   validates_uniqueness_of :title, scope: :artist_id
 
-  belongs_to :artist
+  has_many :artists, through: :track_artist_relations
+  has_many :track_artist_relations
   belongs_to :album
   has_many :episode_track_relations
   has_many :episodes, through: :episode_track_relations

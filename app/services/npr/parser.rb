@@ -10,7 +10,8 @@ class Npr::Parser
   def parse_episode_ids_and_urls
     parents = find_episode_nodes(@stories)
     # we only need unique episodes from array of episode data
-    parents.uniq! {|parent| parent.id }.map {|parent| {id: parent.id, url: get_url_from_parent(parent) } } if parents.length > 1
+    parents = parents.uniq {|parent| parent.id }
+    parents.map {|parent| {id: parent.id, url: get_url_from_parent(parent) } } if parents.length >= 1
   end
 
   private
