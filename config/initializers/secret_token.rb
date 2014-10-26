@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-NprBumps::Application.config.secret_key_base = '62040818f7f6608ef72d05577c2429783477abecd738b922133d3fb721fec3a40f55ec900992589eb20c8473237efcf0dbfb0262cfcd3bb931a26b71a87ae3ee'
+NprBumps::Application.config.secret_key_base = 'fc7e0bc65ea566d908210d7b19310fd56edf62f74fc5324bb13cc704c1c40e10c348ff635376b6b369559ee2dc14ad645d8af2717ade0f00723c2fc47988946e'
