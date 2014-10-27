@@ -18,6 +18,7 @@ class Person < ActiveRecord::Base
     linked_account = LinkedAccount.find_or_initialize(auth_obj)
 
     if linked_account.persisted?
+      linked_account.update_from_oauth(auth_obj)
       return linked_account.person
     else
       linked_account.person = Person.create(email: auth_obj.email, name: auth_obj.name)

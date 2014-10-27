@@ -1,16 +1,21 @@
-class AuthHash
-
-  attr_reader :uid, :type, :email, :name, :image_url, :token, :refresh_token, :expires_at
+AuthHash = Struct.new(:uid, :type, :email, :name, :image_url, :token, :refresh_token, :expires_at) do
 
   def initialize(auth_data)
+    # this is meant to allow proper assigning of attributes regardless of the order of the arguments
+    super(*build_attributes_array(auth_data))
+  end
+
+  def build_attributes_array(auth_data)
     user_info = auth_data['info']
-    @uid = auth_data['uid']
-    @type = auth_data['provider']
-    @name = user_info['name']
-    @email = user_info['email']
-    @image_url = user_info['image']
-    @token = auth_data['credentials']['token']
-    @refresh_token = auth_data['credentials']['refresh_token']
-    @expires_at = auth_data['credentials']['expires_at']
+    [
+      auth_data['uid'],
+      auth_data['provider'],
+      user_info['name'],
+      user_info['email'],
+      user_info['image'],
+      auth_data['credentials']['token'],
+      auth_data['credentials']['refresh_token'],
+      auth_data['credentials']['expires_at']
+    ]
   end
 end

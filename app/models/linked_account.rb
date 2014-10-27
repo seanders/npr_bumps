@@ -33,7 +33,16 @@ class LinkedAccount < ActiveRecord::Base
       first_or_initialize(convert_auth_obj_to_attributes(auth_obj))
   end
 
+  def update_from_oauth(auth_obj)
+    attributes_to_update = auth_obj.to_h.select {|key, value| updateable_attributes.include?(key) }
+    update_attributes(attributes_to_update)
+  end
+
   private
+
+  def updateable_attributes
+    %i(name email image_url oauth_token refresh_token expires_at)
+  end
 
   def self.convert_auth_obj_to_attributes(auth_object)
     {
