@@ -1,4 +1,4 @@
-AuthHash = Struct.new(:uid, :type, :email, :name, :image_url, :token, :refresh_token, :expires_at) do
+AuthHash = Struct.new(:uid, :type, :email, :name, :image_url, :oauth_token, :refresh_token, :expires_at) do
 
   def initialize(auth_data)
     # this is meant to allow proper assigning of attributes regardless of the order of the arguments

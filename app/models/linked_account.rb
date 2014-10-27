@@ -51,7 +51,7 @@ class LinkedAccount < ActiveRecord::Base
       name: auth_object.name,
       email: auth_object.email,
       image_url: auth_object.image_url,
-      oauth_token: auth_object.token,
+      oauth_token: auth_object.oauth_token,
       refresh_token: auth_object.refresh_token,
       expires_at: auth_object.expires_at
     }
