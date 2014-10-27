@@ -26,4 +26,16 @@ class Person < ActiveRecord::Base
       return linked_account.person
     end
   end
+
+  def spotify_account
+    @spotify_account ||= linked_accounts.where(type: 'LinkedAccount::Spotify').first
+  end
+
+  def spotify_oauth_token
+    spotify_account.oauth_token
+  end
+
+  def spotify_id
+    spotify_account.uid
+  end
 end
