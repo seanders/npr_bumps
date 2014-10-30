@@ -11,6 +11,7 @@
 
 class Person < ActiveRecord::Base
   has_many :linked_accounts
+  has_many :playlists
 
   validates :email, presence: true
 
