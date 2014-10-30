@@ -3,9 +3,11 @@
   %span= @person.email
 
 %div
-  = form_for(@person, html: {name: 'foobar'}) do |f|
-    = f.label :name, "Name"
-    = f.text_field :name
 
-- @playlists.each do |playlist|
-  %div= playlist['name']
+  = form_tag do
+    - @playlists.each do |playlist|
+      %div
+        = check_box_tag(:subscribe, true)
+        = label_tag(:subscribe, playlist['name'])
+        = hidden_field_tag(:playlist_id, playlist['id'])
+    = submit_tag("Subscribe Playlists to PRBumps")
