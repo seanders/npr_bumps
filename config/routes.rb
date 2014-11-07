@@ -4,4 +4,5 @@ NprBumps::Application.routes.draw do
 
   resources :auth, only: [:show]
   resources :person, only: [:show, :edit, :update]
+  post 'playlist/sync', to: 'playlist#sync'
 end
