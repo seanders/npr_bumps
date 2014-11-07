@@ -15,4 +15,6 @@
 
 class Playlist < ActiveRecord::Base
   belongs_to :person
+  has_many :subscriptions, source: :program, through: :playlist_program_relations
+  has_many :playlist_program_relations
 end

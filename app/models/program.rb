@@ -17,6 +17,8 @@ class Program < ActiveRecord::Base
   validates :npr_id, presence: true, uniqueness: true
 
   has_many :episodes
+  has_many :subscribed_playlists, source: :playlist, through: :playlist_program_relations
+  has_many :playlist_program_relations
 
   BASE_URL = "http://www.npr.org"
 
