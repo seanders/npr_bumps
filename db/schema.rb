@@ -11,11 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813021357) do
+ActiveRecord::Schema.define(version: 20141030064236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "album_artist_relations", force: true do |t|
+    t.integer  "album_id"
+    t.integer  "artist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "album_artist_relations", ["album_id", "artist_id"], name: "index_album_artist_relations_on_album_and_artist_ids", unique: true, using: :btree
 
   create_table "albums", force: true do |t|
     t.string   "name"
@@ -43,25 +52,6 @@ ActiveRecord::Schema.define(version: 20140813021357) do
   end
 
   add_index "episode_track_relations", ["episode_id", "track_id"], name: "index_episode_track_relations_on_episode_and_track_ids", unique: true, using: :btree
-
-
-  create_table "track_artist_relations", force: true do |t|
-    t.integer  "track_id"
-    t.integer  "artist_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "track_artist_relations", ["track_id", "artist_id"], name: "index_track_artist_relations_on_track_and_artist_ids", unique: true, using: :btree
-
-  create_table "album_artist_relations", force: true do |t|
-    t.integer  "album_id"
-    t.integer  "artist_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "album_artist_relations", ["album_id", "artist_id"], name: "index_album_artist_relations_on_album_and_artist_ids", unique: true, using: :btree
 
   create_table "episodes", force: true do |t|
     t.integer  "npr_id"
@@ -97,6 +87,17 @@ ActiveRecord::Schema.define(version: 20140813021357) do
     t.datetime "updated_at"
   end
 
+  create_table "playlists", force: true do |t|
+    t.string   "name"
+    t.integer  "external_id"
+    t.integer  "person_id"
+    t.integer  "external_owner_id"
+    t.boolean  "public"
+    t.boolean  "collaborative"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "programs", force: true do |t|
     t.string   "name"
     t.string   "url"
@@ -108,6 +109,15 @@ ActiveRecord::Schema.define(version: 20140813021357) do
 
   add_index "programs", ["name"], name: "index_programs_on_name", unique: true, using: :btree
   add_index "programs", ["url"], name: "index_programs_on_url", unique: true, using: :btree
+
+  create_table "track_artist_relations", force: true do |t|
+    t.integer  "track_id"
+    t.integer  "artist_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "track_artist_relations", ["track_id", "artist_id"], name: "index_track_artist_relations_on_track_and_artist_ids", unique: true, using: :btree
 
   create_table "tracks", force: true do |t|
     t.string   "title",          null: false

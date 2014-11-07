@@ -3,7 +3,7 @@ class CreatePlaylists < ActiveRecord::Migration
     create_table :playlists do |t|
       t.string :name
       t.integer :external_id
-      t.integer :user_id
+      t.integer :person_id
       t.integer :external_owner_id
       t.boolean :public
       t.boolean :collaborative
