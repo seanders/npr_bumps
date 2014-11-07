@@ -39,4 +39,18 @@ class Person < ActiveRecord::Base
   def spotify_id
     spotify_account.uid
   end
+
+  def batch_create_playlists(playlist_attributes_array)
+    ActiveRecord::Base.transaction do
+      playlist_attributes_array.each do |playlist_attributes_hash|
+        playlists.create(
+          name: playlist_attributes_hash['name'],
+          external_id: playlist_attributes_hash['id'],
+          external_owner_id: playlist_attributes_hash['owner']['id'],
+          public: playlist_attributes_hash['public'],
+          collaborative: playlist_attributes_hash['collaborative']
+        )
+      end
+    end
+  end
 end

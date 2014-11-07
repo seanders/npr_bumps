@@ -1,9 +1,10 @@
 class PersonController < ApplicationController
 
   before_filter :require_person
+  before_filter :require_auth, only: [:show]
 
   def show
-    @playlists = GetUserPlaylists.call(@person)['items']
+    @playlists = @person.playlists
   end
 
   private

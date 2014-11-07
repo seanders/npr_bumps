@@ -3,6 +3,14 @@
   %span= @person.email
 
 %div
+  - if @playlists.empty?
+    %div Womp. No playlists
+    %div
+      %span sync some now fool
+      = form_tag(method: :post, action: 'sync', controller: 'playlist') do
+        = hidden_field_tag(:id, @person.id)
+        = submit_tag("Sync Playlists!")
+
 
   = form_tag do
     - @playlists.each do |playlist|

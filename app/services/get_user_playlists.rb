@@ -13,7 +13,16 @@ class GetUserPlaylists
   end
 
   def call
-    Spotify::Client.new(access_token: @person.spotify_oauth_token).user_playlists(@person.spotify_id)
+    playlist_response = fetch_playlists_for_person(@person)
+    parse_playlists_array_from_response(playlist_response)
+  end
+
+  def fetch_playlists_for_person(person=@person)
+    Spotify::Client.new(access_token: person.spotify_oauth_token).user_playlists(person.spotify_id)
+  end
+
+  def parse_playlists_array_from_response(raw_response)
+    raw_response['items']
   end
 
 end
