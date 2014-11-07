@@ -5,7 +5,8 @@
 #  id         :integer          not null, primary key
 #  name       :string(255)
 #  artist_id  :integer
-#  label      :string(255)
+#  spotify_id :string(255)
+#  image_url  :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #
