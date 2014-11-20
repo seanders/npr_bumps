@@ -3,6 +3,12 @@ NprBumps::Application.routes.draw do
   root to: 'home#index'
 
   resources :auth, only: [:show]
-  resources :person, only: [:show, :edit, :update]
-  post 'playlist/sync', to: 'playlist#sync'
+  resources :person, only: [:show, :edit, :update] do
+    resources :playlists do
+      collection do
+        post 'sync'
+      end
+    end
+  end
+
 end

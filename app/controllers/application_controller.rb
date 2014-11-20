@@ -8,6 +8,9 @@ class ApplicationController < ActionController::Base
     @person ||= Person.find(params[:id])
   end
 
+  def require_auth
+    redirect_to :root unless authenticated?
+  end
 
   def authenticated?
     @person.id == session[:id]

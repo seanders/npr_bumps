@@ -10,12 +10,6 @@
       = form_tag(method: :post, action: 'sync', controller: 'playlist') do
         = hidden_field_tag(:id, @person.id)
         = submit_tag("Sync Playlists!")
-
-
-  = form_tag do
+  - else
     - @playlists.each do |playlist|
-      %div
-        = check_box_tag(:subscribe, true)
-        = label_tag(:subscribe, playlist['name'])
-        = hidden_field_tag(:playlist_id, playlist['id'])
-    = submit_tag("Subscribe Playlists to PRBumps")
+      %div= link_to "#{playlist.name}", person_playlist_path(@person, playlist)

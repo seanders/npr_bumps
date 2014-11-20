@@ -7,10 +7,4 @@ class PersonController < ApplicationController
     @playlists = @person.playlists
   end
 
-  private
-
-  def require_auth
-    redirect_to :root unless authenticated?
-  end
-
 end
