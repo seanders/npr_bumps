@@ -11,12 +11,13 @@ gem 'unicorn'
 gem 'nokogiri'
 gem 'httparty'
 gem 'em-http-request'
-gem 'jbuilder'
+gem 'rabl'
 # gem 'sidekiq'
 gem 'npr'
 gem 'omniauth-spotify'
 gem 'spotify-client'
 gem 'haml'
+gem 'react-rails', '~> 0.12.0.0'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
