@@ -1,0 +1,15 @@
+!!! 5
+/ paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+/[if IE 8 ]    <html class=\"ie8\" lang=\"en\">
+/[if IE 9 ]    <html class=\"ie9\" lang=\"en\">
+/[if (gt IE 9)|!(IE)] <!--> <html lang=\"en\">
+
+%head
+  %meta{ :charset => "utf-8" }
+  %title= "PR Bumps"
+  = javascript_include_tag "application"
+  = csrf_meta_tag
+  = yield(:head)
+
+%body
+  = yield

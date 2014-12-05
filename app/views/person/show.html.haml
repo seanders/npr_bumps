@@ -12,4 +12,4 @@
         = submit_tag("Sync Playlists!")
   - else
     - @playlists.each do |playlist|
-      %div= link_to "#{playlist.name}", person_playlist_path(@person, playlist)
+      %div= link_to "#{playlist.name}"
