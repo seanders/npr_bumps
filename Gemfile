@@ -16,8 +16,11 @@ gem 'rabl'
 gem 'npr'
 gem 'omniauth-spotify'
 gem 'spotify-client'
+
+# vendor shit
 gem 'haml'
 gem 'react-rails', '~> 0.12.0.0'
+gem 'jquery-rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

@@ -71,6 +71,9 @@ GEM
       multi_json (~> 1.0)
       multi_xml (>= 0.5.2)
     i18n (0.6.9)
+    jquery-rails (3.1.1)
+      railties (>= 3.0, < 5.0)
+      thor (>= 0.14, < 2.0)
     json (1.8.1)
     jwt (1.0.0)
     kgio (2.9.2)
@@ -194,6 +197,7 @@ DEPENDENCIES
   haml
   hirb
   httparty
+  jquery-rails
   nokogiri
   npr
   omniauth-spotify
