@@ -1,4 +1,4 @@
-class PlaylistsController < ApplicationController
+class Api::PlaylistsController < Api::BaseController
 
   before_filter :require_person
   before_filter :require_auth
@@ -12,6 +12,13 @@ class PlaylistsController < ApplicationController
   def show
     # manage subscriptions for a specific playlist
     @playlist = Playlist.find(params[:id])
+  end
+
+  def index
+    @playlists = @person.playlists
+    respond_to do |format|
+      format.json { render json: @playlists }
+    end
   end
 
 

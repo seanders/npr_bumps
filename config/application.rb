@@ -23,7 +23,7 @@ module NprBumps
     # config.active_record.schema_format = :sql
 
     # Custom directories with modules/classes/subclasses that we want loaded
-    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/'), Rails.root.join('app', 'services', '**/'), Rails.root.join('lib')]
+    config.autoload_paths += Dir[Rails.root.join('app', 'models', '**/'), Rails.root.join('lib')]
     #Automatically establish connection to DB when console is initiated
     console do
       ActiveRecord::Base.connection

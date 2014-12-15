@@ -2,14 +2,15 @@
   %span= @person.name
   %span= @person.email
 
-%div
-  - if @playlists.empty?
-    %div Womp. No playlists
-    %div
-      %span sync some now fool
-      = form_tag(method: :post, action: 'sync', controller: 'playlist') do
-        = hidden_field_tag(:id, @person.id)
-        = submit_tag("Sync Playlists!")
-  - else
-    - @playlists.each do |playlist|
-      %div= link_to "#{playlist.name}"
+.playlist-panel
+  / Render the playlist panel here
+  / - if @playlists.empty?
+  /   %div Womp. No playlists
+  /   %div
+  /     %span sync some now fool
+  /     = form_tag(method: :post, action: 'sync', controller: 'playlist') do
+  /       = hidden_field_tag(:id, @person.id)
+  /       = submit_tag("Sync Playlists!")
+  / - else
+  /   - @playlists.each do |playlist|
+  /     %div= link_to("#{playlist.name}", 'javascript:;')
