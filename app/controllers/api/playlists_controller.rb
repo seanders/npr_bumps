@@ -4,9 +4,9 @@ class Api::PlaylistsController < Api::BaseController
   before_filter :require_auth
 
   def sync
-    @playlists = GetUserPlaylists.call(@person)
-    @person.batch_create_playlists(@playlists)
-    redirect_to person_path(@person)
+    playlists = GetUserPlaylists.call(@person)
+    @person.batch_create_playlists(playlists)
+    render json: @person.playlists.to_json
   end
 
   def show

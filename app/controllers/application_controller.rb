@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout 'base'
 
   def require_person
-    @person ||= Person.find(params[:id])
+    @person ||= Person.find(session[:person_id])
   end
 
   def require_auth
@@ -14,6 +14,6 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticated?
-    @person.id == session[:id]
+    @person.id == session[:person_id]
   end
 end

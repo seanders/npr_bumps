@@ -1,6 +1,11 @@
 %div
-  %span= @person.name
-  %span= @person.email
+  %div= @person.name
+  %div= @person.email
 
-#playlist-panel{data: { playlists: @playlists.to_json }}
-#playlist-target
+%div
+  - if @playlists.none?
+    %button#sync-playlists Sync Playlists
+  - else
+    %button#update-playlists Update Playlists
+    #playlist-panel{data: { playlists: @playlists.to_json }}
+    #playlist-target

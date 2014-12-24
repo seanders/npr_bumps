@@ -2,7 +2,7 @@ class Api::BaseController < ActionController::Base
   protect_from_forgery with: :null_session
 
   def require_person
-    @person ||= Person.find(params[:person_id])
+    @person ||= Person.find(params[:person_id] || session[:person_id])
   end
 
   def require_auth

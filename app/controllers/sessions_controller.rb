@@ -4,7 +4,6 @@ class SessionsController < ApplicationController
 
   def create
     @person = Person.find_or_create_from_oauth(auth_hash)
-
     session[:person_id] = @person.id
     redirect_to person_path(@person)
     #find or create using Spotify data
