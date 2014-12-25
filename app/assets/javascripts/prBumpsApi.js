@@ -7,3 +7,9 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
     }
   }
 });
+
+function prBumpsApi () {
+  this.getPlaylists = function () {
+    return $.post('http://localhost:3000/api/playlists/sync');
+  }
+}
