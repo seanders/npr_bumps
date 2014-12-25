@@ -16,7 +16,8 @@
     "url": "https://github.com/slicebo123/npr_bumps/issues"
   },
   "homepage": "https://github.com/slicebo123/npr_bumps",
-  "dependencies": {
-    "node-spotify": "*"
+  "devDependencies": {
+    "browserify": "^8.0.1",
+    "watchify": "^2.2.1"
   }
 }
