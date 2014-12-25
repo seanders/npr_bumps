@@ -4,4 +4,4 @@
 
 //= require jquery
 //= require react
-//= require_tree .
+//= require_tree ./views
