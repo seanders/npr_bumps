@@ -19,7 +19,6 @@ gem 'spotify-client'
 
 # vendor shit
 gem 'haml'
-gem 'react-rails', '~> 0.12.0.0'
 gem 'jquery-rails'
 
 group :doc do
