@@ -23,3 +23,4 @@ config/spotify.yml
 /settings
 /config/user_credentials.js
 /config/initializers/secret_token.rb
+/app/assets/javascripts/bundle.js
