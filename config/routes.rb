@@ -10,6 +10,10 @@ NprBumps::Application.routes.draw do
       collection do
         post 'sync'
       end
+
+      member do
+        get 'subscriptions'
+      end
     end
   end
 
