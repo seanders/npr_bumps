@@ -8,7 +8,7 @@ var PlaylistContainer = React.createClass({
   getInitialState: function () {
     return {
       playlistId: null,
-      subscriptions: {}
+      subscriptions: []
     };
   },
 
