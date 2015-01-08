@@ -23,12 +23,16 @@ var PlaylistContainer = React.createClass({
     });
   },
 
+  handleClickOnSubscriptionItem: function () {
+
+  },
+
   render: function () {
     var subscriptionItems = this.state.subscriptions;
     return (
       <div>
         <PlaylistIndex containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}></PlaylistIndex>
-        <SubscriptionList className="subscription-list--active" items={subscriptionItems}></SubscriptionList>
+        <SubscriptionList items={subscriptionItems} playlistId={this.state.playlistId}></SubscriptionList>
       </div>
     )
   }

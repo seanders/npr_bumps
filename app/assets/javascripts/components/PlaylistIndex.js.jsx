@@ -19,12 +19,12 @@ var PlaylistIndex = React.createClass({
     var self = this;
     var playlistItems = this.state.playlists.map(function (playlistItem) {
       return (
-        <PlaylistItem name={playlistItem.name} key={playlistItem.id} playlistId={playlistItem.id} getSubscriptions={self.getSubscriptionsForItem} />
+        <PlaylistItem name={playlistItem.name} key={playlistItem.id} playlist={playlistItem} playlistId={playlistItem.id} getSubscriptions={self.getSubscriptionsForItem} />
       )
     });
 
     return (
-      <div>
+      <div className="playlist-index">
         {playlistItems}
       </div>
     );

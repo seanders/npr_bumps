@@ -3,15 +3,17 @@ var SubscriptionItem = require('./SubscriptionItem.js.jsx')
 
 var SubscriptionList = React.createClass({
   render: function() {
-    debugger;
     var subscriptionItems = this.props.items.map(function (subscription) {
       return (
-        <SubscriptionItem name={subscription.name} key={subscription.id} subscribed={subscription.subscribed} />
+        <SubscriptionItem name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
       )
     });
     return (
-      <div>
+      <div className="subscription-index">
+        <h1>{this.props.name}</h1>
+        <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistId}/>
         {subscriptionItems}
+        <button>Update Subscriptions</button>
       </div>
     );
   }

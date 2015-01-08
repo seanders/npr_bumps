@@ -58,4 +58,8 @@ class Program < ActiveRecord::Base
       Episode.create_with(program: self, url: hash[:url]).find_or_create_by(npr_id: hash[:id])
     end
   end
+
+  def subscribed
+    is_subscribed || false
+  end
 end

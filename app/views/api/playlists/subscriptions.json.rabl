@@ -1,2 +1,2 @@
 collection @subscriptions
-attributes :id, :name
+attributes :id, :name, :subscribed
