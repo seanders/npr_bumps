@@ -2,6 +2,7 @@
 var PlaylistIndex = require("./PlaylistIndex.js.jsx");
 var SubscriptionList = require("./SubscriptionList.js.jsx");
 var React = require('react');
+var _ = require('lodash');
 
 // Component
 var PlaylistContainer = React.createClass({
@@ -23,8 +24,14 @@ var PlaylistContainer = React.createClass({
     });
   },
 
-  handleClickOnSubscriptionItem: function () {
-
+  handleClickOnSubscriptionItem: function (playlistId, subscribed) {
+    // update subscriptions.subscribed value for correct playlist
+    var subscriptions = this.state.subscriptions;
+    var playlist = _.find(subscriptions, {id: playlistId});
+    playlist.subscribed = subscribed;
+    this.setState({
+      subscriptions: subscriptions
+    });
   },
 
   render: function () {
@@ -32,7 +39,7 @@ var PlaylistContainer = React.createClass({
     return (
       <div>
         <PlaylistIndex containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}></PlaylistIndex>
-        <SubscriptionList items={subscriptionItems} playlistId={this.state.playlistId}></SubscriptionList>
+        <SubscriptionList clickSubscriptionHandler={this.handleClickOnSubscriptionItem} items={subscriptionItems} playlistId={this.state.playlistId}></SubscriptionList>
       </div>
     )
   }

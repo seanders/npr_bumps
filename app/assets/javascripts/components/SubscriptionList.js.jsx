@@ -2,10 +2,15 @@ var React = require('react');
 var SubscriptionItem = require('./SubscriptionItem.js.jsx')
 
 var SubscriptionList = React.createClass({
+  onChangeHandler: function (playlistId, subscribed) {
+    this.props.clickSubscriptionHandler(playlistId, subscribed);
+  },
+
   render: function() {
+    var self = this;
     var subscriptionItems = this.props.items.map(function (subscription) {
       return (
-        <SubscriptionItem name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
+        <SubscriptionItem onChangeHandler={self.onChangeHandler} name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
       )
     });
     return (
