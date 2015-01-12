@@ -10,7 +10,9 @@ var PlaylistContainer = React.createClass({
     return {
       playlistId: null,
       playlistItem: {},
-      subscriptions: []
+      dirtySubscriptionsForm: false,
+      subscriptions: [],
+      masterSubscriptions: []
     };
   },
 
@@ -21,20 +23,32 @@ var PlaylistContainer = React.createClass({
 
     api.getSubscriptions(playlistId).then(function (response) {
       self.setState({
-        subscriptions: response,
+        masterSubscriptions: response,
+        subscriptions: _.cloneDeep(response),
         playlistId: playlistId,
         playlistItem: playlistItem
       })
     });
   },
 
+  isSubscriptionFormDirty: function (oldList, newList) {
+    return !_.isEqual(oldList, newList);
+  },
+
   handleClickOnSubscriptionItem: function (playlistId, subscribed) {
     // update subscriptions.subscribed value for correct playlist
-    var subscriptions = this.state.subscriptions;
-    var playlist = _.find(subscriptions, {id: playlistId});
+    var newSubscriptions = this.state.subscriptions;
+    var masterSubscriptions = this.state.masterSubscriptions;
+    var playlist = _.find(newSubscriptions, {id: playlistId});
+
+    // set value on playlistItem
     playlist.subscribed = subscribed;
+    // check if value we are setting is different from original form
+    var dirtyForm = this.isSubscriptionFormDirty(masterSubscriptions, newSubscriptions);
+    // update state
     this.setState({
-      subscriptions: subscriptions
+      subscriptions: newSubscriptions,
+      dirtySubscriptionsForm: dirtyForm
     });
   },
 
