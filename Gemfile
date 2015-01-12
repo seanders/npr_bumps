@@ -29,6 +29,11 @@ end
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+group :assets do
+  gem 'sass-rails'
+  gem "autoprefixer-rails"
+end
+
 group :development, :test do
   gem 'zeus'
   gem 'foreman'
