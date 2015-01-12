@@ -1,19 +1,21 @@
-var React = require('react');
+var React = require('react'),
+    mui = require('material-ui'),
+    Toggle = mui.Toggle;
 
 var SubscriptionItem = React.createClass({
-  clickHandler: function (event) {
-    var playlistId = parseInt(event.target.value, 10);
-    var subscribed = event.target.checked;
-    this.props.onChangeHandler(playlistId, subscribed);
+  clickHandler: function (event, toggledState) {
+    var playlistId = this.props.programId;
+    var subscribed = toggledState;
+    this.props.onChangeHandler(playlistId, toggledState);
   },
 
   render: function() {
     return (
-      <div>
-        <label for={this.props.programId}>
-          <input id={this.props.programId} type="checkbox" value={this.props.programId} checked={this.props.subscribed} onChange={this.clickHandler}/>
-          {this.props.name}
-        </label>
+      <div className="subscription-item">
+        <div className="subscription-item--toggle">
+          <Toggle id={this.props.programId} value={this.props.programId} toggled={this.props.subscribed} onToggle={this.clickHandler}/>
+        </div>
+        <h5 className="subscription-item--label">{this.props.name}</h5>
       </div>
     )
   }

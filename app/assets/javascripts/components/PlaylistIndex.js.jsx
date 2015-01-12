@@ -11,15 +11,15 @@ var PlaylistIndex = React.createClass({
     }
   },
 
-  getSubscriptionsForItem: function (playlistId) {
-    return this.props.containerGetSubscriptionsForItem(playlistId);
+  getSubscriptionsForItem: function (playlistItem) {
+    return this.props.containerGetSubscriptionsForItem(playlistItem);
   },
 
   render: function() {
     var self = this;
     var playlistItems = this.state.playlists.map(function (playlistItem) {
       return (
-        <PlaylistItem name={playlistItem.name} key={playlistItem.id} playlist={playlistItem} playlistId={playlistItem.id} getSubscriptions={self.getSubscriptionsForItem} />
+        <PlaylistItem playlistItem={playlistItem} key={playlistItem.id}  getSubscriptions={self.getSubscriptionsForItem} />
       )
     });
 

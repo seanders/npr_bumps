@@ -9,17 +9,21 @@ var PlaylistContainer = React.createClass({
   getInitialState: function () {
     return {
       playlistId: null,
+      playlistItem: {},
       subscriptions: []
     };
   },
 
-  containerGetSubscriptionsForItem: function (playlistId) {
-    var self = this;
-    var api = new prBumpsApi();
+  containerGetSubscriptionsForItem: function (playlistItem) {
+    var playlistId = playlistItem.id;
+        self = this,
+        api = new prBumpsApi();
+
     api.getSubscriptions(playlistId).then(function (response) {
       self.setState({
         subscriptions: response,
-        playlistId: playlistId
+        playlistId: playlistId,
+        playlistItem: playlistItem
       })
     });
   },
@@ -36,10 +40,11 @@ var PlaylistContainer = React.createClass({
 
   render: function () {
     var subscriptionItems = this.state.subscriptions;
+    var playlistItem = this.state.playlistItem;
     return (
       <div>
         <PlaylistIndex containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}></PlaylistIndex>
-        <SubscriptionList clickSubscriptionHandler={this.handleClickOnSubscriptionItem} items={subscriptionItems} playlistId={this.state.playlistId}></SubscriptionList>
+        <SubscriptionList playlistName={playlistItem.name} clickSubscriptionHandler={this.handleClickOnSubscriptionItem} items={subscriptionItems} playlistId={playlistItem.id}></SubscriptionList>
       </div>
     )
   }

@@ -1,5 +1,7 @@
-var React = require('react');
-var SubscriptionItem = require('./SubscriptionItem.js.jsx')
+var React = require('react'),
+    SubscriptionItem = require('./SubscriptionItem.js.jsx'),
+    mui = require('material-ui'),
+    RaisedButton = mui.RaisedButton;
 
 var SubscriptionList = React.createClass({
   onChangeHandler: function (playlistId, subscribed) {
@@ -13,12 +15,18 @@ var SubscriptionList = React.createClass({
         <SubscriptionItem onChangeHandler={self.onChangeHandler} name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
       )
     });
+
     return (
       <div className="subscription-index">
-        <h1>{this.props.name}</h1>
-        <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistId}/>
-        {subscriptionItems}
-        <button>Update Subscriptions</button>
+        <h3>{this.props.playlistName}</h3>
+        <form>
+          <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistId}/>
+          {subscriptionItems}
+        </form>
+        <div className="primary-action-button">
+          <RaisedButton label="Update Subscription" secondary={true}/>
+        </div>
+        <RaisedButton label="Discard Changes" />
       </div>
     );
   }

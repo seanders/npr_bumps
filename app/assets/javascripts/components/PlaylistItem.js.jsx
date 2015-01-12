@@ -8,14 +8,15 @@ var PlaylistItem = React.createClass({
         <a href="javascript:;"
            className="playlist-name"
            onClick={this.showSubscriptions}
-           >{this.props.name}
+           >
+          <span className="mui-font-style-subhead-1">{this.props.playlistItem.name}</span>
         </a>
       </div>
     );
   },
   showSubscriptions: function () {
     // call passed in function from parent with playlistId as argument
-    this.props.getSubscriptions(this.props.playlistId);
+    this.props.getSubscriptions(this.props.playlistItem);
   }
 });
 
