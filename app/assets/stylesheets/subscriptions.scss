@@ -1,0 +1,28 @@
+.playlist-index {
+  float: left;
+}
+
+.subscription-index {
+  float: left;
+  .primary-action-button {
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .discard-changes-button {
+
+  }
+}
+
+.subscription-item {
+  .subscription-item--toggle {
+    margin-right: 10px;
+    display: inline-block;
+  }
+
+  .subscription-item--label {
+    display: inline-block;
+    position: relative;
+    top: -2px;
+  }
+}
