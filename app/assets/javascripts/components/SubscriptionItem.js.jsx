@@ -13,7 +13,7 @@ var SubscriptionItem = React.createClass({
     return (
       <div className="subscription-item">
         <div className="subscription-item--toggle">
-          <Toggle id={this.props.programId} value={this.props.programId} toggled={this.props.subscribed} onToggle={this.clickHandler}/>
+          <Toggle toggled={this.props.subscribed} onToggle={this.clickHandler}/>
         </div>
         <h5 className="subscription-item--label">{this.props.name}</h5>
       </div>
