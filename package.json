@@ -28,6 +28,7 @@
   "scripts": {
     "bundle": "browserify -t reactify app/assets/javascripts/index.js -o app/assets/javascripts/bundle.js",
     "watch-js": "watchify -t reactify app/assets/javascripts/index.js -o app/assets/javascripts/bundle.js",
-    "start": "npm run watch-js & rails s"
+    "start-all": "npm run watch-js & rails s",
+    "start": "npm run watch-js"
   }
 }
