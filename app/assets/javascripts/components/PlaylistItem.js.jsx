@@ -7,16 +7,16 @@ var PlaylistItem = React.createClass({
       <div className="playlist-item">
         <a href="javascript:;"
            className="playlist-name"
-           onClick={this.showSubscriptions}
+           onClick={this.handleClick}
            >
           <span className="mui-font-style-subhead-1">{this.props.playlistItem.name}</span>
         </a>
       </div>
     );
   },
-  showSubscriptions: function () {
+  handleClick: function () {
     // call passed in function from parent with playlistId as argument
-    this.props.getSubscriptions(this.props.playlistItem);
+    this.props.clickHandler(this.props.playlistItem);
   }
 });
 
