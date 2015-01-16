@@ -47,6 +47,13 @@ var SubscriptionList = React.createClass({
     });
   },
 
+  cleanForm: function () {
+    var master = this.state.masterSubscriptions;
+    this.setState({
+      subscriptions: _.cloneDeep(master)
+    });
+  },
+
   isSubscriptionFormDirty: function (oldList, newList) {
     return !_.isEqual(oldList, newList);
   },
@@ -69,7 +76,11 @@ var SubscriptionList = React.createClass({
         <div className="primary-action-button">
           <RaisedButton label="Update Subscription" secondary={true}/>
         </div>
-        <RaisedButton label="Discard Changes" />
+        <RaisedButton
+          label="Discard Changes"
+          onMouseDown={this.cleanForm}
+          disabled={!this.state.dirtySubscriptionsForm}>
+        </RaisedButton>
       </div>
     );
   }
