@@ -74,7 +74,7 @@ var SubscriptionList = React.createClass({
           {subscriptionItems}
         </form>
         <div className="primary-action-button">
-          <RaisedButton label="Update Subscription" secondary={true}/>
+          <RaisedButton label="Update Subscription" disabled={!this.state.dirtySubscriptionsForm} secondary={this.state.dirtySubscriptionsForm}/>
         </div>
         <RaisedButton
           label="Discard Changes"
