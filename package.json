@@ -19,7 +19,7 @@
   "devDependencies": {
     "browserify": "^8.0.1",
     "lodash": "^2.4.1",
-    "material-ui": "callemall/material-ui#09818bb42e3ee66dcebf419293a6e40108918d21",
+    "material-ui": "seanders/material-ui#35b424c26a006d48673b8829256ceec11581029d",
     "react": "0.12.2",
     "reactify": "0.17.1",
     "react-tap-event-plugin": "^0.1.3",
