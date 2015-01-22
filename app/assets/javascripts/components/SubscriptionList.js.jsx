@@ -58,6 +58,10 @@ var SubscriptionList = React.createClass({
     return !_.isEqual(oldList, newList);
   },
 
+  submitForm: function () {
+    console.log('dat shit was submitted');
+  },
+
   render: function() {
     var self = this;
     var subscriptionItems = this.state.subscriptions.map(function (subscription) {
@@ -68,13 +72,22 @@ var SubscriptionList = React.createClass({
 
     return (
       <div className="subscription-index">
-        <h3>{this.props.playlistItem.name}</h3>
+        <div>
+          <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3> 
+          <div className="subscription-index--loading-icon">wut</div>
+        </div>
         <form>
           <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistItem.id}/>
           {subscriptionItems}
         </form>
         <div className="primary-action-button">
-          <RaisedButton label="Update Subscription" disabled={!this.state.dirtySubscriptionsForm} secondary={this.state.dirtySubscriptionsForm}/>
+          <RaisedButton
+            label="Update Subscription"
+            disabled={!this.state.dirtySubscriptionsForm}
+            secondary={this.state.dirtySubscriptionsForm}
+            onMouseDown={this.submitForm}
+          >
+          </RaisedButton>
         </div>
         <RaisedButton
           label="Discard Changes"
