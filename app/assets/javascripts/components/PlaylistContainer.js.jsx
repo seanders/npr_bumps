@@ -9,7 +9,7 @@ var PlaylistContainer = React.createClass({
   getInitialState: function () {
     return {
       playlistId: null,
-      playlistItem: {}
+      playlistItem: null
     };
   },
 
@@ -22,12 +22,19 @@ var PlaylistContainer = React.createClass({
   },
 
   render: function () {
+    var playlistRender;
     var subscriptionItems = this.state.subscriptions;
     var playlistItem = this.state.playlistItem;
+
+    if (playlistItem) {
+      playlistRender = <SubscriptionList playlistItem={playlistItem}></SubscriptionList>
+    } else {
+      playlistRender = <h5>No playlist selected!</h5>
+    }
     return (
       <div>
         <PlaylistIndex containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}></PlaylistIndex>
-        <SubscriptionList playlistItem={playlistItem}></SubscriptionList>
+        {playlistRender}
       </div>
     )
   }
