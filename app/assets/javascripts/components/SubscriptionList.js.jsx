@@ -1,5 +1,6 @@
 var React = require('react'),
     SubscriptionItem = require('./SubscriptionItem.js.jsx'),
+    LoadingIcon = require('./LoadingIcon.js.jsx'),
     _ = require('lodash'),
     mui = require('material-ui'),
     RaisedButton = mui.RaisedButton;
@@ -74,7 +75,7 @@ var SubscriptionList = React.createClass({
       <div className="subscription-index">
         <div>
           <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3> 
-          <div className="subscription-index--loading-icon">wut</div>
+          <LoadingIcon></LoadingIcon>
         </div>
         <form>
           <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistItem.id}/>

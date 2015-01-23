@@ -9,8 +9,35 @@
     display: inline-block;
   }
 
+  .icon-container {
+    background-color: $teal-50;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  .loading-spinner {
+    width: 10px;
+    height: 10px;
+    border-top: 3px solid black;
+    border-right: 3px solid black;
+  }
+
+  .center-icon {
+    transform: translate(50%, 50%);
+  }
+
   .discard-changes-button {
 
+  }
+
+  .subscription-index--header {
+    display: inline-block;
+  }
+
+  .subscription-index--loading-icon {
+    display: inline-block;
+    margin-left: 20px;
   }
 }
 
