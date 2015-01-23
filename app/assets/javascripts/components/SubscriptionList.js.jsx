@@ -14,6 +14,16 @@ var SubscriptionList = React.createClass({
     };
   },
 
+  componentDidMount: function() {
+    var self = this;
+    this.getSubscriptionsForPlaylist(this.props.playlistItem).then(function (response) {
+      self.setState({
+        masterSubscriptions: response,
+        subscriptions: _.cloneDeep(response)
+      })
+    });
+  },
+
   componentWillReceiveProps: function (nextProps) {
     var self = this;
     this.getSubscriptionsForPlaylist(nextProps.playlistItem).then(function (response) {
@@ -51,7 +61,8 @@ var SubscriptionList = React.createClass({
   cleanForm: function () {
     var master = this.state.masterSubscriptions;
     this.setState({
-      subscriptions: _.cloneDeep(master)
+      subscriptions: _.cloneDeep(master),
+      dirtySubscriptionsForm: false
     });
   },
 
@@ -65,17 +76,17 @@ var SubscriptionList = React.createClass({
 
   render: function() {
     var self = this;
-    var subscriptionItems = this.state.subscriptions.map(function (subscription) {
+        show = !!this.props.playlistItem ? "show" : 'hide',
+        subscriptionItems = this.state.subscriptions.map(function (subscription) {
       return (
         <SubscriptionItem onChangeHandler={self.onChangeHandler} name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
       )
     });
 
     return (
-      <div className="subscription-index">
+      <div className={"subscription-index "+show}>
         <div>
           <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3> 
-          <LoadingIcon></LoadingIcon>
         </div>
         <form>
           <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistItem.id}/>
