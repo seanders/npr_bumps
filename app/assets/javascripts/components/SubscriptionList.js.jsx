@@ -1,5 +1,6 @@
 var React = require('react'),
     SubscriptionItem = require('./SubscriptionItem.js.jsx'),
+    prBumpsApi = require('../services/prBumpsApi.js'),
     LoadingIcon = require('./LoadingIcon.js.jsx'),
     _ = require('lodash'),
     mui = require('material-ui'),
@@ -35,10 +36,8 @@ var SubscriptionList = React.createClass({
   },
 
   getSubscriptionsForPlaylist: function (playlistItem) {
-    var playlistId = playlistItem.id,
-        api = new prBumpsApi();
-
-    return api.getSubscriptions(playlistId);
+    var playlistId = playlistItem.id;
+    return prBumpsApi.getSubscriptions(playlistId);
   },
 
   onChangeHandler: function (playlistId, subscribed) {

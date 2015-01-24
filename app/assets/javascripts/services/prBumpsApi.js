@@ -8,14 +8,17 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
   }
 });
 
-function prBumpsApi (env) {
-  var endpoint = env || 'http://localhost:3000/api/';
+var endpoint = '/api/';
 
-  this.getPlaylists = function () {
+var prBumpsApi = {
+
+  getPlaylists: function () {
     return $.post(endpoint +'playlists/sync');
   },
 
-  this.getSubscriptions = function (id) {
+  getSubscriptions: function (id) {
     return $.get(endpoint + "playlists/"+id+"/subscriptions");
   }
 }
+
+module.exports = prBumpsApi;
