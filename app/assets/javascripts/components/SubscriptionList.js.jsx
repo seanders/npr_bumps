@@ -86,26 +86,29 @@ var SubscriptionList = React.createClass({
     return (
       <div className={"subscription-index "+show}>
         <div>
-          <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3> 
+          <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3>
         </div>
         <form>
           <input type="hidden" id="playlistId" name="playlistId" value={this.props.playlistItem.id}/>
           {subscriptionItems}
         </form>
-        <div className="primary-action-button">
+
+        <div className="subscription-index--action-buttons">
+          <div className="primary-action-button">
+            <RaisedButton
+              label="Update Subscription"
+              disabled={!this.state.dirtySubscriptionsForm}
+              secondary={this.state.dirtySubscriptionsForm}
+              onMouseDown={this.submitForm}
+            >
+            </RaisedButton>
+          </div>
           <RaisedButton
-            label="Update Subscription"
-            disabled={!this.state.dirtySubscriptionsForm}
-            secondary={this.state.dirtySubscriptionsForm}
-            onMouseDown={this.submitForm}
-          >
+            label="Discard Changes"
+            onMouseDown={this.cleanForm}
+            disabled={!this.state.dirtySubscriptionsForm}>
           </RaisedButton>
         </div>
-        <RaisedButton
-          label="Discard Changes"
-          onMouseDown={this.cleanForm}
-          disabled={!this.state.dirtySubscriptionsForm}>
-        </RaisedButton>
       </div>
     );
   }

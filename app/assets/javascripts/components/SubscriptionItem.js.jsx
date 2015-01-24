@@ -12,10 +12,12 @@ var SubscriptionItem = React.createClass({
   render: function() {
     return (
       <div className="subscription-item">
-        <div className="subscription-item--toggle">
-          <Toggle toggled={this.props.subscribed} onToggle={this.clickHandler}/>
+        <div className="subscription-item--contents">
+          <div className="subscription-item--toggle">
+            <Toggle toggled={this.props.subscribed} onToggle={this.clickHandler}/>
+          </div>
+          <h5 className="subscription-item--label">{this.props.name}</h5>
         </div>
-        <h5 className="subscription-item--label">{this.props.name}</h5>
       </div>
     )
   }
