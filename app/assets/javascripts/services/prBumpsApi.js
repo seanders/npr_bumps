@@ -18,6 +18,14 @@ var prBumpsApi = {
 
   getSubscriptions: function (id) {
     return $.get(endpoint + "playlists/"+id+"/subscriptions");
+  },
+
+  updateSubscriptionsForPlaylist: function (payload) {
+    return $.ajax({
+      type: "PUT",
+      url: endpoint+"playlists/"+payload.playlistItemId+"/subscriptions",
+      data: {program_ids: payload.programIds}
+    });
   }
 }
 

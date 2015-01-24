@@ -16,5 +16,12 @@
 require 'spec_helper'
 
 describe Playlist do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:playlist) { create(:playlist) }
+  let(:program) { create(:program) }
+
+  describe '#update_subscriptions' do
+    it "should return true if the playlist updated successfully" do
+      expect(playlist.update_subscriptions(program.id)).to be_true
+    end
+  end
 end

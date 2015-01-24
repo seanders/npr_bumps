@@ -3,14 +3,18 @@
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 .ajax-success {
-  width: 30px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  width: 118px;
   background-color: $green-500;
+  transition: background-color 2.5s ease;
   height: 30px;
-  border-radius: 25px;
+  border-radius: 5px;
 }
 
 .subscription-index {
@@ -22,6 +26,7 @@
 
   .subscription-index--action-buttons {
     margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .icon-container {

@@ -18,4 +18,8 @@ class Playlist < ActiveRecord::Base
   has_many :subscriptions, source: :program, through: :playlist_program_relations
   has_many :playlist_program_relations
 
+  def update_subscriptions(program_ids)
+    update_attributes(subscription_ids: program_ids)
+  end
+
 end

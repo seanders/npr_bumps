@@ -16,5 +16,6 @@ FactoryGirl.define do
     sequence(:name) { |n| "program_#{n}" }
     url "http://www.fake_url.com"
     sequence(:slug) { |n| "program-one-#{n}" }
+    sequence(:npr_id) { |n| n }
   end
 end

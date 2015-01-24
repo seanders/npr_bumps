@@ -19,7 +19,7 @@ FactoryGirl.define do
   factory :playlist do
     name "MyString"
     external_id 1
-    user_id 1
+    person
     external_owner_id 1
     public false
     collaborative false

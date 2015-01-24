@@ -13,6 +13,7 @@ NprBumps::Application.routes.draw do
 
       member do
         get 'subscriptions'
+        put 'subscriptions', to: "playlists#update_subscriptions"
       end
     end
   end

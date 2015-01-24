@@ -13,12 +13,7 @@
 
 FactoryGirl.define do
   factory :person do
-    spotify_id "MyString"
-    name "MyString"
-    image_url "MyString"
-    token "MyString"
-    refresh_token "MyString"
-    expires_at "MyString"
-    expires_in "MyString"
+    sequence(:name) { |n| "person_name_#{n}"}
+    sequence(:email) { |n| "email-#{n}@example.com" }
   end
 end

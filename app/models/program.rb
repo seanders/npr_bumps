@@ -22,6 +22,13 @@ class Program < ActiveRecord::Base
 
   BASE_URL = "http://www.npr.org"
 
+  scope :subscriptions_for_playlist, ->(id) {
+    joins("LEFT JOIN playlist_program_relations ON playlist_program_relations.program_id = programs.id
+      AND playlist_program_relations.playlist_id = #{id}").
+      select("programs.*, playlist_program_relations.id as is_subscribed").
+      order("programs.id ASC")
+  }
+
   def base_url
     Program::BASE_URL
   end
@@ -60,6 +67,7 @@ class Program < ActiveRecord::Base
   end
 
   def subscribed
-    is_subscribed || false
+    # is_subscribed comes back as an ID/ just need to know if ID is here
+    !!is_subscribed || false
   end
 end

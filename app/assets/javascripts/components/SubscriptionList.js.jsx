@@ -10,28 +10,33 @@ var SubscriptionList = React.createClass({
   getInitialState: function () {
     return {
       dirtySubscriptionsForm: false,
+      ajaxSuccess: false,
       subscriptions: [],
       masterSubscriptions: []
     };
   },
 
+  setSubscriptionState: function (newSubscriptionArray, ajaxSuccess) {
+    this.setState({
+      dirtySubscriptionsForm: false,
+      masterSubscriptions: newSubscriptionArray,
+      subscriptions: _.cloneDeep(newSubscriptionArray),
+      ajaxSuccess: ajaxSuccess || false
+    })
+  },
+
   componentDidMount: function() {
     var self = this;
     this.getSubscriptionsForPlaylist(this.props.playlistItem).then(function (response) {
-      self.setState({
-        masterSubscriptions: response,
-        subscriptions: _.cloneDeep(response)
-      })
+      // update state for component
+      self.setSubscriptionState(response);
     });
   },
 
   componentWillReceiveProps: function (nextProps) {
     var self = this;
     this.getSubscriptionsForPlaylist(nextProps.playlistItem).then(function (response) {
-      self.setState({
-        masterSubscriptions: response,
-        subscriptions: _.cloneDeep(response)
-      })
+      self.setSubscriptionState(response);
     });
   },
 
@@ -52,6 +57,7 @@ var SubscriptionList = React.createClass({
     var isFormDirty = this.isSubscriptionFormDirty(masterSubscriptions, newSubscriptions);
     // update state
     this.setState({
+      ajaxSuccess: false,
       subscriptions: newSubscriptions,
       dirtySubscriptionsForm: isFormDirty
     });
@@ -69,13 +75,43 @@ var SubscriptionList = React.createClass({
     return !_.isEqual(oldList, newList);
   },
 
-  submitForm: function () {
-    console.log('dat shit was submitted');
+  submitForm: function (event) {
+    var requestPayload = this.createPayloadForSubmit(),
+        self = this;
+
+    this.setState({
+      ajaxSuccess: false
+    });
+
+    prBumpsApi.updateSubscriptionsForPlaylist(requestPayload).then(function (response) {
+      self.setSubscriptionState(response, true);
+    }, function () {
+      console.log('error callback;');
+    });
+  },
+
+  getPlaylistItemId: function () {
+    return this.props.playlistItem.id;
+  },
+
+  createPayloadForSubmit: function () {
+    var playlistItemId = this.props.playlistItem.id;
+    var programIds = _.chain(this.state.subscriptions).map(function (subscription) {
+      if(subscription.subscribed) {
+        return subscription.id;
+      }
+    }).compact().value();
+    return {
+      playlistItemId: playlistItemId,
+      programIds: programIds
+    }
   },
 
   render: function() {
-    var self = this;
-        show = !!this.props.playlistItem ? "show" : 'hide',
+    var self = this,
+        // extract this shit into a method in a mixin for show/hide ability
+        showSubscriptionList = !!this.props.playlistItem ? "show" : 'hide',
+        showAjaxSuccess = !!this.state.ajaxSuccess ? "show" : "hide",
         subscriptionItems = this.state.subscriptions.map(function (subscription) {
       return (
         <SubscriptionItem onChangeHandler={self.onChangeHandler} name={subscription.name} programId={subscription.id} key={subscription.id} subscribed={subscription.subscribed} />
@@ -83,7 +119,7 @@ var SubscriptionList = React.createClass({
     });
 
     return (
-      <div className={"subscription-index "+show}>
+      <div className={"subscription-index "+showSubscriptionList}>
         <div>
           <h3 className="subscription-index--header">{this.props.playlistItem.name}</h3>
         </div>
@@ -107,6 +143,10 @@ var SubscriptionList = React.createClass({
             onMouseDown={this.cleanForm}
             disabled={!this.state.dirtySubscriptionsForm}>
           </RaisedButton>
+        </div>
+
+        <div className={"ajax-success " + showAjaxSuccess}>
+          <span className="mui-font-style-body-2">Saved!</span>
         </div>
       </div>
     );
