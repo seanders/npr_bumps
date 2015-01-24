@@ -3,9 +3,9 @@
   %div= @person.email
 
 %div
+  %h2 Playlist Manager
   - if @playlists.none?
     %button#sync-playlists Sync Playlists
   - else
-    %button#update-playlists Update Playlists
     #playlist-panel{data: { playlists: @playlists.to_json }}
     #playlist-target
