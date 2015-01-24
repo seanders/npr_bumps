@@ -29,7 +29,7 @@ var PlaylistContainer = React.createClass({
     if (playlistItem) {
       playlistRender = <SubscriptionList playlistItem={playlistItem}></SubscriptionList>
     } else {
-      playlistRender = <h5>No playlist selected!</h5>
+      playlistRender = <div className="subscription-index"><h3>No playlist selected!</h3></div>
     }
     return (
       <div>
