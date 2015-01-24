@@ -20,7 +20,7 @@ class Program < ActiveRecord::Base
   has_many :subscribed_playlists, source: :playlist, through: :playlist_program_relations
   has_many :playlist_program_relations
 
-  BASE_URL = "http://www.npr.org"
+  BASE_URL = "http://www.npr.org".freeze
 
   scope :subscriptions_for_playlist, ->(id) {
     joins("LEFT JOIN playlist_program_relations ON playlist_program_relations.program_id = programs.id
