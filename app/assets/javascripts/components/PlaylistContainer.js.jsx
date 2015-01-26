@@ -12,8 +12,7 @@ var PlaylistContainer = React.createClass({
   getInitialState: function () {
     return {
       playlistId: null,
-      playlistItem: null,
-      playlists: []
+      playlistItem: null
     };
   },
 
@@ -36,7 +35,6 @@ var PlaylistContainer = React.createClass({
 
   render: function () {
     var playlistRender;
-    var subscriptionItems = this.state.subscriptions;
     var playlistItem = this.state.playlistItem;
 
     if (playlistItem) {
