@@ -24,3 +24,5 @@ config/spotify.yml
 /config/user_credentials.js
 /config/initializers/secret_token.rb
 /app/assets/javascripts/bundle.js
+# Ignore dump created when quitting redis-server
+dump.rdb
