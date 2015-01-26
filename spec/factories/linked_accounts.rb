@@ -20,12 +20,27 @@
 # Read about factories at https://github.com/thoughtbot/factory_girl
 
 FactoryGirl.define do
+  sequence(:oauth_token) {|n| "oauth-token-#{n}"}
+
   factory :linked_account do
     uid 1
     image_url "MyString"
-    oauth_token "MyString"
+    oauth_token
     refresh_token "MyString"
     expires_at "MyString"
     expires_in 1
+  end
+
+  factory :spotify_account, class: LinkedAccount::Spotify do
+    sequence(:uid) {|n| n}
+    person
+    image_url "MyString"
+    oauth_token
+    refresh_token "MyString"
+    expires_at 2.hours.from_now
+
+    factory :spotify_account_with_expired_token do
+      expires_at 2.hours.ago  
+    end
   end
 end
