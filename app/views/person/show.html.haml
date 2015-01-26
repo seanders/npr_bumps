@@ -4,8 +4,5 @@
 
 %div
   %h2 Playlist Manager
-  - if @playlists.none?
-    %button#sync-playlists Sync Playlists
-  - else
-    #playlist-panel{data: { playlists: @playlists.to_json }}
-    #playlist-target
+  #playlist-panel{data: { playlists: @playlists.to_json }}
+  #playlist-target

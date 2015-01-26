@@ -33,18 +33,21 @@ class Person < ActiveRecord::Base
   end
 
   def spotify_oauth_token
-    spotify_account.oauth_token
+    # will handle refreshening logic if necessary
+    spotify_account.valid_oauth_token
   end
 
   def spotify_id
     spotify_account.uid
   end
 
-  def batch_create_playlists(playlist_attributes_array)
+  def batch_create_or_update_playlists(playlist_attributes_array)
     ActiveRecord::Base.transaction do
       playlist_attributes_array.each do |playlist_attributes_hash|
-        playlists.create(
-          name: playlist_attributes_hash['name'],
+        # find or init a new playlist for the user
+        playlist = playlists.find_or_initialize_by(name: playlist_attributes_hash['name'], external_owner_id: playlist_attributes_hash['owner']['id'])
+        # save attributes from spotify
+        playlist.update_attributes!(
           external_id: playlist_attributes_hash['id'],
           external_owner_id: playlist_attributes_hash['owner']['id'],
           public: playlist_attributes_hash['public'],

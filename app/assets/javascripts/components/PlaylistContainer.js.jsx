@@ -1,15 +1,19 @@
 // Deps
-var PlaylistIndex = require("./PlaylistIndex.js.jsx");
-var SubscriptionList = require("./SubscriptionList.js.jsx");
-var React = require('react');
-var _ = require('lodash');
+var PlaylistIndex = require("./PlaylistIndex.js.jsx"),
+    prBumpsApi = require("../services/prBumpsApi.js"),
+    SubscriptionList = require("./SubscriptionList.js.jsx"),
+    React = require('react'),
+    _ = require('lodash'),
+    mui = require("material-ui"),
+    RaisedButton = mui.RaisedButton;
 
 // Component
 var PlaylistContainer = React.createClass({
   getInitialState: function () {
     return {
       playlistId: null,
-      playlistItem: null
+      playlistItem: null,
+      playlists: []
     };
   },
 
@@ -18,6 +22,15 @@ var PlaylistContainer = React.createClass({
     this.setState({
       playlistId: playlistId,
       playlistItem: playlistItem
+    });
+  },
+
+  refreshPlaylistIndex: function () {
+    var self = this;
+    prBumpsApi.getPlaylists().then(function (response) {
+      self.setState({
+        playlists: response
+      })
     });
   },
 
@@ -33,8 +46,23 @@ var PlaylistContainer = React.createClass({
     }
     return (
       <div>
-        <PlaylistIndex containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}></PlaylistIndex>
-        {playlistRender}
+        {/* Row 2 */}
+        <div className="refresh-button">
+          <RaisedButton
+            label="Refresh Playlists"
+            onMouseDown={this.refreshPlaylistIndex}>
+          </RaisedButton>
+        </div>
+
+        {/* Row 1 */}
+        <div className="playlist-manager-row">
+          <PlaylistIndex 
+            containerGetSubscriptionsForItem={this.containerGetSubscriptionsForItem}
+            playlists={this.state.playlists}
+            >
+          </PlaylistIndex>
+          {playlistRender}
+        </div>
       </div>
     )
   }

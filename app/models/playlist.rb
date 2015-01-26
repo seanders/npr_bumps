@@ -15,8 +15,10 @@
 
 class Playlist < ActiveRecord::Base
   belongs_to :person
-  has_many :subscriptions, source: :program, through: :playlist_program_relations
+  has_many :subscriptions, source: :program, through: :playlist_program_relations, dependent: :destroy
   has_many :playlist_program_relations
+  validates :external_id, uniqueness: true, presence: true
+  validates :external_owner_id, presence: true
 
   def update_subscriptions(program_ids)
     update_attributes(subscription_ids: program_ids)

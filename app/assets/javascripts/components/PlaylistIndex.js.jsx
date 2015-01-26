@@ -11,6 +11,10 @@ var PlaylistIndex = React.createClass({
     }
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.hasOwnProperty('playlists')) this.setState({playlists: nextProps.playlists})
+  },
+
   getSubscriptionsForItem: function (playlistItem) {
     return this.props.containerGetSubscriptionsForItem(playlistItem);
   },

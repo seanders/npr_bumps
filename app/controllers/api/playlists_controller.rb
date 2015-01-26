@@ -2,11 +2,11 @@ class Api::PlaylistsController < Api::BaseController
 
   before_filter :require_person
   before_filter :require_auth
-  before_filter :require_playlist
+  before_filter :require_playlist, except: [:sync]
 
   def sync
     playlists = GetUserPlaylists.call(@person)
-    @person.batch_create_playlists(playlists)
+    @person.batch_create_or_update_playlists(playlists)
     render json: @person.playlists.to_json
   end
 
@@ -15,11 +15,6 @@ class Api::PlaylistsController < Api::BaseController
     respond_to do |format|
       format.json { render json: @playlists }
     end
-  end
-
-  def show
-    # manage subscriptions for a specific playlist
-    @playlist
   end
 
   def subscriptions

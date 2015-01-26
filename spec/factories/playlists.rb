@@ -18,9 +18,9 @@
 FactoryGirl.define do
   factory :playlist do
     name "MyString"
-    external_id 1
+    sequence(:external_id)
     person
-    external_owner_id 1
+    sequence(:external_owner_id)
     public false
     collaborative false
   end
