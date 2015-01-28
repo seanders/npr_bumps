@@ -15,5 +15,9 @@
 
 FactoryGirl.define do
   factory :album do
+    sequence(:name) {|n| "album-#{n}"}
+    artist
+    sequence(:spotify_id)
+    sequence(:image_url) {|n| "http://www.fake-image.com/#{n}"}
   end
 end

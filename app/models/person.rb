@@ -54,6 +54,8 @@ class Person < ActiveRecord::Base
           collaborative: playlist_attributes_hash['collaborative']
         )
       end
+
+      # remove whatever playlists do not show up from spotify
     end
   end
 end

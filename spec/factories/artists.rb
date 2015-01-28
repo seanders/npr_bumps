@@ -13,7 +13,7 @@
 
 FactoryGirl.define do
   factory :artist do
-    name "MyString"
-    image_url "MyString"
+    sequence(:name) { |n| "fleetwood-mac-#{n}" }
+    sequence(:image_url) { |n| "http://www.datimage.com/#{n}" }
   end
 end

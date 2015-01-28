@@ -15,8 +15,19 @@
 
 FactoryGirl.define do
   factory :episode do
-    npr_id 1
-    date "2014-06-28 17:05:11"
-    program_id 1
+    sequence(:npr_id)
+    sequence(:url) { |n| "http://www.doesnotmatter.com/#{n}" }
+    date 1.day.ago
+    program
+
+    factory :episode_with_tracks do
+      ignore do
+        tracks_count 4
+      end
+
+      after(:create) do |episode, evaluator|
+        create_list(:episode_track_relation, evaluator.tracks_count, episode: episode)
+      end
+    end
   end
 end

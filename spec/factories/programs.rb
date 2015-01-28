@@ -12,10 +12,20 @@
 #
 
 FactoryGirl.define do
-  factory :program do
+  factory :program, aliases: [:subscription] do
     sequence(:name) { |n| "program_#{n}" }
-    url "http://www.fake_url.com"
+    sequence(:url) { |n| "http://www.fake_url-#{n}.com" }
     sequence(:slug) { |n| "program-one-#{n}" }
-    sequence(:npr_id) { |n| n }
+    sequence(:npr_id)
+
+    factory :program_with_episodes do
+      ignore do
+        episodes_count 3
+      end
+
+      after(:create) do |program, evaluator|
+        create_list(:episode_with_tracks, evaluator.episodes_count, program: program)
+      end
+    end
   end
 end

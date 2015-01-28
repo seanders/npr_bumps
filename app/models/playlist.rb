@@ -20,6 +20,8 @@ class Playlist < ActiveRecord::Base
   validates :external_id, uniqueness: true, presence: true
   validates :external_owner_id, presence: true
 
+  scope :subscribed, -> { includes(:subscriptions).where('playlist_program_relations.playlist_id IS NOT NULL').references(:subscriptions) } 
+
   def update_subscriptions(program_ids)
     update_attributes(subscription_ids: program_ids)
   end

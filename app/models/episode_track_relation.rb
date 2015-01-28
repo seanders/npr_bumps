@@ -12,7 +12,7 @@
 class EpisodeTrackRelation < ActiveRecord::Base
   belongs_to :episode
   belongs_to :track
-  validates_uniqueness_of :episode_id, scope: :track_id
+  # validates_uniqueness_of :episode_id, scope: :track_id
   validates :episode_id, presence: true
   validates :track_id, presence: true
 end

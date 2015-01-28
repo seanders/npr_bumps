@@ -17,7 +17,10 @@
 
 FactoryGirl.define do
   factory :track do
-    name "MyString"
-    artist_id 1
+    sequence(:title) {|n| "dat-song-#{n}"}
+    sequence(:npr_attributes) { |n| {artist_name: "artist-#{n}", album_name: "album-#{n}"} }
+    external_ids { {"isrc"=>"GBJSG1009504"} }
+    sequence(:spotify_id)
+    album
   end
 end

@@ -1,5 +1,11 @@
+desc "Create NPR episodes and sync song data from spotify"
+task :get_all_song_data => :environment do
+  Rake::Task['sync_songs_from_npr'].invoke
+  Rake::Task['sync_song_data_from_spotify'].invoke
+end
+
 # Sync episodes/songs using NPR API
-desc "Creates episodes"
+desc "Creates episodes from NPR"
 task :sync_songs_from_npr => :environment do
   # This will sync just for the current day
   Program.all.each {|program| program.sync_tracks}

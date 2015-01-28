@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :playlist_program_relation do
-    references ""
-    references ""
+    playlist
+    program
   end
 end

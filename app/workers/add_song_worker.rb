@@ -1,7 +1,8 @@
 class AddSongWorker
   include Sidekiq::Worker
 
-  def perform
+  def perform(person)
     # SEND SHIT TO PERSONs PLAYLIST
+    SendSongsToPlaylists.call(person, Spotify::Client)
   end
 end
